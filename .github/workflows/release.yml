@@ -1,0 +1,82 @@
+name: Build & Release Windows App
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Publish as a GitHub Release'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Windows Executables
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run TypeScript type check
+        run: npm run typecheck
+
+      - name: Run unit tests (Vitest)
+        run: npm test
+
+      - name: Build renderer and main bundles
+        run: npm run build
+
+      - name: Package Windows Portable & Installer
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder --win
+
+      - name: Generate SHA-256 Checksums
+        shell: pwsh
+        run: |
+          Get-ChildItem release\*.exe | ForEach-Object {
+            $hash = Get-FileHash $_.FullName -Algorithm SHA256
+            "$($hash.Hash)  $($_.Name)" | Out-File -Append -Encoding utf8 release\SHA256SUMS.txt
+          }
+          Get-Content release\SHA256SUMS.txt
+
+      - name: Upload build artifacts (CI)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ReInstall-Hub-Windows-Binaries
+          path: |
+            release/*.exe
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*.exe
+            release/SHA256SUMS.txt
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

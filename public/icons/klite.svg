@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="8" fill="#1b4332"/>
+    <path d="M16 15l16 9-16 9z" fill="#52b788"/>
+    <text x="31" y="36" font-size="9" font-family="sans-serif" font-weight="900" fill="#d8f3dc" text-anchor="middle">CODEC</text>
+  </svg>

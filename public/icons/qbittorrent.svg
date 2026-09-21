@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="8" fill="#2F679B"/>
+    <circle cx="24" cy="24" r="13" fill="#ffffff"/>
+    <text x="21" y="29" font-size="14" font-family="sans-serif" font-weight="bold" fill="#2F679B">q</text>
+    <text x="27" y="29" font-size="14" font-family="sans-serif" font-weight="bold" fill="#5294E2">B</text>
+  </svg>

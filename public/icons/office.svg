@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="8" fill="#d83b01"/>
+    <path d="M12 12h14v24H12z" fill="#f25022"/>
+    <path d="M26 18h10v12H26z" fill="#ffb900"/>
+    <text x="24" y="31" font-size="18" font-family="Segoe UI, sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle">O</text>
+  </svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="8" fill="#5c2d91"/>
+    <path d="M14 14l10-4 10 4v10l-10 14-10-14z" fill="#ffffff" opacity="0.15"/>
+    <text x="24" y="27" font-size="12" font-family="Segoe UI, sans-serif" font-weight="900" fill="#ffffff" text-anchor="middle">C++</text>
+    <text x="24" y="37" font-size="8" font-family="Segoe UI, sans-serif" font-weight="bold" fill="#ffd166" text-anchor="middle">REDIST</text>
+  </svg>
