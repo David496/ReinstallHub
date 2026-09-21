@@ -22,9 +22,7 @@ win:
         - x64
   icon: public/icons/icon.ico
   requestedExecutionLevel: asInvoker
+  artifactName: "ReInstall-Hub-Portable-Folder-${version}.${ext}"
 
 portable:
   artifactName: "ReInstall-Hub-Portable-${version}.${ext}"
-
-zip:
-  artifactName: "ReInstall-Hub-Portable-Folder-${version}.${ext}"
