@@ -38,8 +38,8 @@ export class SettingsService {
       };
     }
 
-    // Determine application execution directory
-    const appDir = app?.isPackaged ? path.dirname(process.execPath) : process.cwd();
+    // Determine application execution directory (respecting electron-builder portable environment)
+    const appDir = process.env.PORTABLE_EXECUTABLE_DIR || (app?.isPackaged ? path.dirname(process.execPath) : process.cwd());
     const isProgramFiles = appDir.toLowerCase().includes('program files');
 
     let canWriteToAppDir = false;

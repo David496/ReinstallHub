@@ -85,6 +85,8 @@ export const electronApi: ElectronAPI = {
         storagePath: 'portable',
         profilesPath: 'portable/profiles',
       }),
+    openProfilesFolder: () =>
+      window.electronAPI?.settings.openProfilesFolder() ?? Promise.resolve(false),
   },
 
   app: {

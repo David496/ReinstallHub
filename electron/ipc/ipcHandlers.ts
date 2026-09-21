@@ -1,4 +1,4 @@
-import { ipcMain, dialog, BrowserWindow, nativeTheme, app } from 'electron';
+import { ipcMain, dialog, BrowserWindow, nativeTheme, app, shell } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
@@ -97,6 +97,15 @@ export function registerIpcHandlers(mainWindow: BrowserWindow) {
 
   ipcMain.handle('settings:getStorageInfo', () => {
     return settingsService.getStorageInfo();
+  });
+
+  ipcMain.handle('settings:openProfilesFolder', async () => {
+    const info = settingsService.getStorageInfo();
+    if (!fs.existsSync(info.profilesPath)) {
+      fs.mkdirSync(info.profilesPath, { recursive: true });
+    }
+    await shell.openPath(info.profilesPath);
+    return true;
   });
 
   // --- Log Channels ---

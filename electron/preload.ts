@@ -78,6 +78,7 @@ const electronAPI = {
     save: (settings: Partial<AppSettings>): Promise<AppSettings> => ipcRenderer.invoke('settings:save', settings),
     getStorageInfo: (): Promise<{ isPortable: boolean; storagePath: string; profilesPath: string }> =>
       ipcRenderer.invoke('settings:getStorageInfo'),
+    openProfilesFolder: (): Promise<boolean> => ipcRenderer.invoke('settings:openProfilesFolder'),
   },
 
   app: {

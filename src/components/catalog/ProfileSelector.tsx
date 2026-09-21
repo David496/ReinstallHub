@@ -14,9 +14,11 @@ import {
   Trash2,
   Check,
   HardDrive,
+  FolderOpen,
 } from 'lucide-react';
 import { Profile } from '../../types/profile';
 import { useAppStore } from '../../store/applicationStore';
+import { electronApi } from '../../services/electronApi';
 
 export const ProfileSelector: React.FC = () => {
   const {
@@ -325,6 +327,15 @@ export const ProfileSelector: React.FC = () => {
             >
               <Upload className="w-3.5 h-3.5 text-win-muted" />
               <span>{t.profiles.importProfile}</span>
+            </button>
+
+            <button
+              onClick={() => electronApi.settings.openProfilesFolder()}
+              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-win-card text-win-text transition-colors text-left"
+              title={storageInfo?.profilesPath}
+            >
+              <FolderOpen className="w-3.5 h-3.5 text-amber-500" />
+              <span>{language === 'es' ? 'Abrir carpeta de perfiles' : 'Open profiles folder'}</span>
             </button>
           </div>
 
