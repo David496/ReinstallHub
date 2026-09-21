@@ -12,11 +12,11 @@ build/*.zip
 
 # Runtime user settings and custom profiles (portable data)
 reinstall-hub-settings.json
-profiles/
+/profiles/
 *.write-test
 
 # Logs
-logs/
+/logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
