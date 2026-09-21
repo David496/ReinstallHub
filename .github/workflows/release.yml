@@ -53,7 +53,7 @@ jobs:
       - name: Generate SHA-256 Checksums
         shell: pwsh
         run: |
-          Get-ChildItem -Path release\ -Include *.exe, *.zip -File | ForEach-Object {
+          Get-ChildItem -Path release\* -Include *.exe, *.zip -File | ForEach-Object {
             $hash = Get-FileHash $_.FullName -Algorithm SHA256
             "$($hash.Hash)  $($_.Name)" | Out-File -Append -Encoding utf8 release\SHA256SUMS.txt
           }
