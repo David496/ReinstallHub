@@ -7,7 +7,8 @@ export const SaveProfileModal: React.FC = () => {
   const {
     isSaveProfileModalOpen,
     setIsSaveProfileModalOpen,
-    selectedSoftwareList,
+    selectedSoftwareIds,
+    softwareList,
     saveCustomProfile,
     t,
   } = useAppStore();
@@ -16,6 +17,10 @@ export const SaveProfileModal: React.FC = () => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  const profileApps = React.useMemo(() => {
+    return softwareList.filter((app) => selectedSoftwareIds.has(app.id));
+  }, [softwareList, selectedSoftwareIds]);
 
   if (!isSaveProfileModalOpen) return null;
 
@@ -32,7 +37,7 @@ export const SaveProfileModal: React.FC = () => {
       setError(t.profiles.nameRequired);
       return;
     }
-    if (selectedSoftwareList.length === 0) {
+    if (selectedSoftwareIds.size === 0) {
       setError(t.profiles.noAppsSelectedWarning);
       return;
     }
@@ -126,17 +131,17 @@ export const SaveProfileModal: React.FC = () => {
                 {t.profiles.selectedAppsCount}
               </span>
               <span className="text-[11px] font-bold text-win-primary bg-win-primary/10 px-1.5 py-0.5 rounded">
-                {selectedSoftwareList.length} apps
+                {profileApps.length} apps
               </span>
             </div>
 
             <div className="p-2 bg-win-bg/70 border border-win-border/70 rounded-md max-h-36 overflow-y-auto space-y-1 select-none">
-              {selectedSoftwareList.length === 0 ? (
+              {profileApps.length === 0 ? (
                 <p className="text-xs text-win-muted italic text-center py-2">
                   {t.profiles.noAppsSelectedWarning}
                 </p>
               ) : (
-                selectedSoftwareList.map((app) => (
+                profileApps.map((app) => (
                   <div
                     key={app.id}
                     className="flex items-center justify-between text-xs py-0.5 px-1 rounded hover:bg-win-card/50"
@@ -167,7 +172,7 @@ export const SaveProfileModal: React.FC = () => {
               type="submit"
               variant="primary"
               size="sm"
-              disabled={isSaving || !name.trim() || selectedSoftwareList.length === 0}
+              disabled={isSaving || !name.trim() || profileApps.length === 0}
               icon={<Check className="w-3.5 h-3.5" />}
             >
               {t.profiles.saveButton}

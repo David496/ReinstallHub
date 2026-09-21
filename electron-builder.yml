@@ -14,7 +14,7 @@ files:
 
 win:
   target:
-    - target: nsis
+    - target: zip
       arch:
         - x64
     - target: portable
@@ -23,13 +23,8 @@ win:
   icon: public/icons/icon.ico
   requestedExecutionLevel: asInvoker
 
-nsis:
-  oneClick: false
-  allowToChangeInstallationDirectory: true
-  createDesktopShortcut: always
-  createStartMenuShortcut: true
-  shortcutName: ReInstall Hub
-  artifactName: "${productName}-Setup-${version}.${ext}"
-
 portable:
-  artifactName: "${productName}-Portable-${version}.${ext}"
+  artifactName: "ReInstall-Hub-Portable-${version}.${ext}"
+
+zip:
+  artifactName: "ReInstall-Hub-Portable-Folder-${version}.${ext}"

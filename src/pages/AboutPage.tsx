@@ -17,7 +17,7 @@ export const AboutPage: React.FC = () => {
       {/* Hero Badge */}
       <div className="p-6 rounded-xl bg-gradient-to-br from-win-panel to-win-card border border-win-border shadow-md flex items-center gap-5">
         <div className="w-18 h-18 rounded-2xl bg-sky-500/10 border border-sky-500/30 p-1 flex items-center justify-center flex-shrink-0 shadow-lg shadow-sky-500/15 overflow-hidden">
-          <img src="/icons/logo.png" alt="ReInstall Hub Logo" className="w-16 h-16 object-cover rounded-xl" />
+          <img src="./icons/logo.png" alt="ReInstall Hub Logo" className="w-16 h-16 object-cover rounded-xl" />
         </div>
         <div>
           <div className="flex items-center gap-2">

@@ -94,11 +94,11 @@ export const SoftwareCard: React.FC<SoftwareCardProps> = ({
           <div className="flex items-center gap-2 min-w-0">
             <div className="w-8 h-8 rounded-md bg-black/5 dark:bg-black/25 border border-win-border/50 p-1 flex items-center justify-center flex-shrink-0 group-hover:border-win-primary/40 transition-colors">
               <img
-                src={software.icon}
+                src={software.icon.startsWith('/') ? `.${software.icon}` : software.icon}
                 alt={software.name}
                 className="w-full h-full object-contain"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/icons/icon.svg';
+                  (e.target as HTMLImageElement).src = './icons/logo.png';
                 }}
               />
             </div>

@@ -11,7 +11,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/office.svg",
+    "icon": "./icons/office.svg",
     "wingetId": "Microsoft.Office",
     "estimatedSize": 3500,
     "tags": [
@@ -36,7 +36,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/onlyoffice.svg",
+    "icon": "./icons/onlyoffice.svg",
     "wingetId": "ONLYOFFICE.DesktopEditors",
     "estimatedSize": 450,
     "tags": [
@@ -61,7 +61,7 @@
       "Office",
       "Recommended"
     ],
-    "icon": "/icons/libreoffice.svg",
+    "icon": "./icons/libreoffice.svg",
     "wingetId": "TheDocumentFoundation.LibreOffice",
     "estimatedSize": 360,
     "tags": [
@@ -86,7 +86,7 @@
       "Essential",
       "Recommended"
     ],
-    "icon": "/icons/adobe.svg",
+    "icon": "./icons/adobe.svg",
     "wingetId": "Adobe.Acrobat.Reader.64-bit",
     "estimatedSize": 320,
     "tags": [
@@ -110,7 +110,7 @@
       "Office",
       "Utilities"
     ],
-    "icon": "/icons/sumatra.svg",
+    "icon": "./icons/sumatra.svg",
     "wingetId": "SumatraPDF.SumatraPDF",
     "estimatedSize": 8,
     "tags": [
@@ -133,7 +133,7 @@
     "category": [
       "Office"
     ],
-    "icon": "/icons/foxit.svg",
+    "icon": "./icons/foxit.svg",
     "wingetId": "Foxit.FoxitReader",
     "estimatedSize": 180,
     "tags": [
@@ -156,7 +156,7 @@
       "Office",
       "Utilities"
     ],
-    "icon": "/icons/pdfcreator.svg",
+    "icon": "./icons/pdfcreator.svg",
     "wingetId": "Avanquestpdfforge.PDFCreator-Free",
     "estimatedSize": 45,
     "tags": [
@@ -181,7 +181,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/chrome.svg",
+    "icon": "./icons/chrome.svg",
     "wingetId": "Google.Chrome",
     "estimatedSize": 105,
     "tags": [
@@ -205,7 +205,7 @@
       "Essential",
       "Recommended"
     ],
-    "icon": "/icons/firefox.svg",
+    "icon": "./icons/firefox.svg",
     "wingetId": "Mozilla.Firefox",
     "estimatedSize": 95,
     "tags": [
@@ -228,7 +228,7 @@
       "Browsers",
       "Recommended"
     ],
-    "icon": "/icons/brave.svg",
+    "icon": "./icons/brave.svg",
     "wingetId": "Brave.Brave",
     "estimatedSize": 120,
     "tags": [
@@ -252,7 +252,7 @@
       "Browsers",
       "Gaming"
     ],
-    "icon": "/icons/operagx.svg",
+    "icon": "./icons/operagx.svg",
     "wingetId": "Opera.OperaGX",
     "estimatedSize": 110,
     "tags": [
@@ -274,7 +274,7 @@
     "category": [
       "Browsers"
     ],
-    "icon": "/icons/edge.svg",
+    "icon": "./icons/edge.svg",
     "wingetId": "Microsoft.Edge",
     "estimatedSize": 140,
     "tags": [
@@ -297,7 +297,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/7zip.svg",
+    "icon": "./icons/7zip.svg",
     "wingetId": "7zip.7zip",
     "estimatedSize": 3,
     "tags": [
@@ -320,7 +320,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/winrar.svg",
+    "icon": "./icons/winrar.svg",
     "wingetId": "RARLab.WinRAR",
     "estimatedSize": 4,
     "tags": [
@@ -342,7 +342,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/peazip.svg",
+    "icon": "./icons/peazip.svg",
     "wingetId": "Giorgiotani.Peazip",
     "estimatedSize": 12,
     "tags": [
@@ -365,7 +365,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/everything.svg",
+    "icon": "./icons/everything.svg",
     "wingetId": "voidtools.Everything",
     "estimatedSize": 4,
     "tags": [
@@ -389,7 +389,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/powertoys.svg",
+    "icon": "./icons/powertoys.svg",
     "wingetId": "Microsoft.PowerToys",
     "estimatedSize": 250,
     "tags": [
@@ -412,7 +412,7 @@
       "Utilities",
       "Essential"
     ],
-    "icon": "/icons/rufus.svg",
+    "icon": "./icons/rufus.svg",
     "wingetId": "Rufus.Rufus",
     "estimatedSize": 5,
     "tags": [
@@ -435,7 +435,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/treesize.svg",
+    "icon": "./icons/treesize.svg",
     "wingetId": "JAMSoftware.TreeSize.Free",
     "estimatedSize": 15,
     "tags": [
@@ -459,7 +459,7 @@
       "Utilities",
       "Security"
     ],
-    "icon": "/icons/bleachbit.svg",
+    "icon": "./icons/bleachbit.svg",
     "wingetId": "BleachBit.BleachBit",
     "estimatedSize": 18,
     "tags": [
@@ -482,7 +482,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/bcuninstaller.svg",
+    "icon": "./icons/bcuninstaller.svg",
     "wingetId": "Klocman.BulkCrapUninstaller",
     "estimatedSize": 110,
     "tags": [
@@ -504,7 +504,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/revouninstaller.svg",
+    "icon": "./icons/revouninstaller.svg",
     "wingetId": "RevoUninstaller.RevoUninstaller",
     "estimatedSize": 20,
     "tags": [
@@ -525,7 +525,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/geekuninstaller.svg",
+    "icon": "./icons/geekuninstaller.svg",
     "wingetId": "GeekUninstaller.GeekUninstaller",
     "estimatedSize": 3,
     "tags": [
@@ -546,7 +546,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/cpuz.svg",
+    "icon": "./icons/cpuz.svg",
     "wingetId": "CPUID.CPU-Z",
     "estimatedSize": 4,
     "tags": [
@@ -568,7 +568,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/hwmonitor.svg",
+    "icon": "./icons/hwmonitor.svg",
     "wingetId": "CPUID.HWMonitor",
     "estimatedSize": 3,
     "tags": [
@@ -591,7 +591,7 @@
       "Utilities",
       "Gaming"
     ],
-    "icon": "/icons/gpuz.svg",
+    "icon": "./icons/gpuz.svg",
     "wingetId": "TechPowerUp.GPU-Z",
     "estimatedSize": 10,
     "tags": [
@@ -615,7 +615,7 @@
       "Utilities",
       "Essential"
     ],
-    "icon": "/icons/crystaldisk.svg",
+    "icon": "./icons/crystaldisk.svg",
     "wingetId": "CrystalDewWorld.CrystalDiskInfo",
     "estimatedSize": 6,
     "tags": [
@@ -640,7 +640,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/vlc.svg",
+    "icon": "./icons/vlc.svg",
     "wingetId": "VideoLAN.VLC",
     "estimatedSize": 45,
     "tags": [
@@ -663,7 +663,7 @@
     "category": [
       "Media"
     ],
-    "icon": "/icons/spotify.svg",
+    "icon": "./icons/spotify.svg",
     "wingetId": "Spotify.Spotify",
     "estimatedSize": 90,
     "tags": [
@@ -685,7 +685,7 @@
     "category": [
       "Media"
     ],
-    "icon": "/icons/audacity.svg",
+    "icon": "./icons/audacity.svg",
     "wingetId": "Audacity.Audacity",
     "estimatedSize": 35,
     "tags": [
@@ -708,7 +708,7 @@
     "category": [
       "Media"
     ],
-    "icon": "/icons/handbrake.svg",
+    "icon": "./icons/handbrake.svg",
     "wingetId": "HandBrake.HandBrake",
     "estimatedSize": 30,
     "tags": [
@@ -731,7 +731,7 @@
       "Media",
       "Graphics"
     ],
-    "icon": "/icons/obs.svg",
+    "icon": "./icons/obs.svg",
     "wingetId": "OBSProject.OBSStudio",
     "estimatedSize": 130,
     "tags": [
@@ -753,7 +753,7 @@
     "category": [
       "Media"
     ],
-    "icon": "/icons/foobar2000.svg",
+    "icon": "./icons/foobar2000.svg",
     "wingetId": "PeterPawlowski.foobar2000",
     "estimatedSize": 6,
     "tags": [
@@ -778,7 +778,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/sharex.svg",
+    "icon": "./icons/sharex.svg",
     "wingetId": "ShareX.ShareX",
     "estimatedSize": 35,
     "tags": [
@@ -801,7 +801,7 @@
     "category": [
       "Graphics"
     ],
-    "icon": "/icons/gimp.svg",
+    "icon": "./icons/gimp.svg",
     "wingetId": "GIMP.GIMP",
     "estimatedSize": 300,
     "tags": [
@@ -825,7 +825,7 @@
       "Graphics",
       "Recommended"
     ],
-    "icon": "/icons/paintdotnet.svg",
+    "icon": "./icons/paintdotnet.svg",
     "wingetId": "dotPDN.PaintDotNet",
     "estimatedSize": 75,
     "tags": [
@@ -848,7 +848,7 @@
     "category": [
       "Graphics"
     ],
-    "icon": "/icons/inkscape.svg",
+    "icon": "./icons/inkscape.svg",
     "wingetId": "Inkscape.Inkscape",
     "estimatedSize": 150,
     "tags": [
@@ -871,7 +871,7 @@
     "category": [
       "Graphics"
     ],
-    "icon": "/icons/krita.svg",
+    "icon": "./icons/krita.svg",
     "wingetId": "KDE.Krita",
     "estimatedSize": 180,
     "tags": [
@@ -893,7 +893,7 @@
     "category": [
       "Graphics"
     ],
-    "icon": "/icons/blender.svg",
+    "icon": "./icons/blender.svg",
     "wingetId": "BlenderFoundation.Blender",
     "estimatedSize": 350,
     "tags": [
@@ -916,7 +916,7 @@
       "Graphics",
       "Utilities"
     ],
-    "icon": "/icons/faststone.svg",
+    "icon": "./icons/faststone.svg",
     "wingetId": "FastStone.Viewer",
     "estimatedSize": 10,
     "tags": [
@@ -940,7 +940,7 @@
       "Gaming",
       "Recommended"
     ],
-    "icon": "/icons/discord.svg",
+    "icon": "./icons/discord.svg",
     "wingetId": "Discord.Discord",
     "estimatedSize": 90,
     "tags": [
@@ -964,7 +964,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/telegram.svg",
+    "icon": "./icons/telegram.svg",
     "wingetId": "Telegram.TelegramDesktop",
     "estimatedSize": 40,
     "tags": [
@@ -985,7 +985,7 @@
     "category": [
       "Communication"
     ],
-    "icon": "/icons/zoom.svg",
+    "icon": "./icons/zoom.svg",
     "wingetId": "Zoom.Zoom",
     "estimatedSize": 60,
     "tags": [
@@ -1008,7 +1008,7 @@
       "Communication",
       "Office"
     ],
-    "icon": "/icons/thunderbird.svg",
+    "icon": "./icons/thunderbird.svg",
     "wingetId": "Mozilla.Thunderbird",
     "estimatedSize": 65,
     "tags": [
@@ -1032,7 +1032,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/anydesk.svg",
+    "icon": "./icons/anydesk.svg",
     "wingetId": "AnyDeskSoftwareGmbH.AnyDesk",
     "estimatedSize": 15,
     "tags": [
@@ -1055,7 +1055,7 @@
       "Communication",
       "Utilities"
     ],
-    "icon": "/icons/teamviewer.svg",
+    "icon": "./icons/teamviewer.svg",
     "wingetId": "TeamViewer.TeamViewer",
     "estimatedSize": 35,
     "tags": [
@@ -1079,7 +1079,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/bitwarden.svg",
+    "icon": "./icons/bitwarden.svg",
     "wingetId": "Bitwarden.Bitwarden",
     "estimatedSize": 85,
     "tags": [
@@ -1101,7 +1101,7 @@
     "category": [
       "Security"
     ],
-    "icon": "/icons/keepassxc.svg",
+    "icon": "./icons/keepassxc.svg",
     "wingetId": "KeePassXCTeam.KeePassXC",
     "estimatedSize": 45,
     "tags": [
@@ -1124,7 +1124,7 @@
       "Security",
       "Recommended"
     ],
-    "icon": "/icons/malwarebytes.svg",
+    "icon": "./icons/malwarebytes.svg",
     "wingetId": "Malwarebytes.Malwarebytes",
     "estimatedSize": 300,
     "tags": [
@@ -1148,7 +1148,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/qbittorrent.svg",
+    "icon": "./icons/qbittorrent.svg",
     "wingetId": "qBittorrent.qBittorrent",
     "estimatedSize": 30,
     "tags": [
@@ -1170,7 +1170,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/transmission.svg",
+    "icon": "./icons/transmission.svg",
     "wingetId": "Transmission.Transmission",
     "estimatedSize": 20,
     "tags": [
@@ -1192,7 +1192,7 @@
       "Utilities",
       "Development"
     ],
-    "icon": "/icons/winscp.svg",
+    "icon": "./icons/winscp.svg",
     "wingetId": "WinSCP.WinSCP",
     "estimatedSize": 11,
     "tags": [
@@ -1216,7 +1216,7 @@
       "Utilities",
       "Development"
     ],
-    "icon": "/icons/putty.svg",
+    "icon": "./icons/putty.svg",
     "wingetId": "PuTTY.PuTTY",
     "estimatedSize": 5,
     "tags": [
@@ -1240,7 +1240,7 @@
       "Media",
       "Recommended"
     ],
-    "icon": "/icons/steam.svg",
+    "icon": "./icons/steam.svg",
     "wingetId": "Valve.Steam",
     "estimatedSize": 25,
     "tags": [
@@ -1263,7 +1263,7 @@
       "Gaming",
       "Media"
     ],
-    "icon": "/icons/epicgames.svg",
+    "icon": "./icons/epicgames.svg",
     "wingetId": "EpicGames.EpicGamesLauncher",
     "estimatedSize": 150,
     "tags": [
@@ -1288,7 +1288,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/vscode.svg",
+    "icon": "./icons/vscode.svg",
     "wingetId": "Microsoft.VisualStudioCode",
     "estimatedSize": 110,
     "tags": [
@@ -1313,7 +1313,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/notepadpp.svg",
+    "icon": "./icons/notepadpp.svg",
     "wingetId": "Notepad++.Notepad++",
     "estimatedSize": 5,
     "tags": [
@@ -1337,7 +1337,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/git.svg",
+    "icon": "./icons/git.svg",
     "wingetId": "Git.Git",
     "estimatedSize": 65,
     "tags": [
@@ -1359,7 +1359,7 @@
     "category": [
       "Development"
     ],
-    "icon": "/icons/github.svg",
+    "icon": "./icons/github.svg",
     "wingetId": "GitHub.GitHubDesktop",
     "estimatedSize": 130,
     "tags": [
@@ -1382,7 +1382,7 @@
       "Development",
       "Essential"
     ],
-    "icon": "/icons/nodejs.svg",
+    "icon": "./icons/nodejs.svg",
     "wingetId": "OpenJS.NodeJS.LTS",
     "estimatedSize": 35,
     "tags": [
@@ -1406,7 +1406,7 @@
       "Development",
       "Essential"
     ],
-    "icon": "/icons/python.svg",
+    "icon": "./icons/python.svg",
     "wingetId": "Python.Python.3.12",
     "estimatedSize": 30,
     "tags": [
@@ -1429,7 +1429,7 @@
     "category": [
       "Development"
     ],
-    "icon": "/icons/postman.svg",
+    "icon": "./icons/postman.svg",
     "wingetId": "Postman.Postman",
     "estimatedSize": 160,
     "tags": [
@@ -1451,7 +1451,7 @@
     "category": [
       "Development"
     ],
-    "icon": "/icons/docker.svg",
+    "icon": "./icons/docker.svg",
     "wingetId": "Docker.DockerDesktop",
     "estimatedSize": 550,
     "tags": [
@@ -1474,7 +1474,7 @@
       "Development",
       "Office"
     ],
-    "icon": "/icons/dbeaver.svg",
+    "icon": "./icons/dbeaver.svg",
     "wingetId": "DBeaver.DBeaver.Community",
     "estimatedSize": 120,
     "tags": [
@@ -1499,7 +1499,7 @@
       "Essential",
       "Recommended"
     ],
-    "icon": "/icons/vcredist.svg",
+    "icon": "./icons/vcredist.svg",
     "wingetId": "Microsoft.VCRedist.2015+.x64",
     "estimatedSize": 25,
     "tags": [
@@ -1524,7 +1524,7 @@
       "Essential",
       "Development"
     ],
-    "icon": "/icons/dotnet.svg",
+    "icon": "./icons/dotnet.svg",
     "wingetId": "Microsoft.DotNet.DesktopRuntime.8",
     "estimatedSize": 60,
     "tags": [
@@ -1545,7 +1545,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/ddu.svg",
+    "icon": "./icons/ddu.svg",
     "wingetId": "Wagnardsoft.DisplayDriverUninstaller",
     "estimatedSize": 5,
     "tags": [
@@ -1568,7 +1568,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/lockhunter.svg",
+    "icon": "./icons/lockhunter.svg",
     "wingetId": "CrystalRich.LockHunter",
     "estimatedSize": 4,
     "tags": [
@@ -1591,7 +1591,7 @@
       "Utilities",
       "Security"
     ],
-    "icon": "/icons/autoruns.svg",
+    "icon": "./icons/autoruns.svg",
     "wingetId": "Microsoft.Sysinternals.Autoruns",
     "estimatedSize": 4,
     "tags": [
@@ -1615,7 +1615,7 @@
       "Security",
       "Recommended"
     ],
-    "icon": "/icons/shutup10.svg",
+    "icon": "./icons/shutup10.svg",
     "wingetId": "OO-Software.ShutUp10",
     "estimatedSize": 2,
     "tags": [
@@ -1638,7 +1638,7 @@
       "Office",
       "Recommended"
     ],
-    "icon": "/icons/obsidian.svg",
+    "icon": "./icons/obsidian.svg",
     "wingetId": "Obsidian.Obsidian",
     "estimatedSize": 85,
     "tags": [
@@ -1660,7 +1660,7 @@
     "category": [
       "Office"
     ],
-    "icon": "/icons/notion.svg",
+    "icon": "./icons/notion.svg",
     "wingetId": "Notion.Notion",
     "estimatedSize": 90,
     "tags": [
@@ -1683,7 +1683,7 @@
       "Office",
       "Media"
     ],
-    "icon": "/icons/calibre.svg",
+    "icon": "./icons/calibre.svg",
     "wingetId": "calibre.calibre",
     "estimatedSize": 140,
     "tags": [
@@ -1706,7 +1706,7 @@
       "Office",
       "Development"
     ],
-    "icon": "/icons/marktext.svg",
+    "icon": "./icons/marktext.svg",
     "wingetId": "MarkText.MarkText",
     "estimatedSize": 75,
     "tags": [
@@ -1729,7 +1729,7 @@
       "Utilities",
       "Essential"
     ],
-    "icon": "/icons/klite.svg",
+    "icon": "./icons/klite.svg",
     "wingetId": "CodecGuide.K-LiteCodecPack.Standard",
     "estimatedSize": 45,
     "tags": [
@@ -1752,7 +1752,7 @@
       "Media",
       "Graphics"
     ],
-    "icon": "/icons/losslesscut.svg",
+    "icon": "./icons/losslesscut.svg",
     "wingetId": "ch.LosslessCut",
     "estimatedSize": 90,
     "tags": [
@@ -1774,7 +1774,7 @@
     "category": [
       "Media"
     ],
-    "icon": "/icons/aimp.svg",
+    "icon": "./icons/aimp.svg",
     "wingetId": "AIMP.AIMP",
     "estimatedSize": 18,
     "tags": [
@@ -1796,7 +1796,7 @@
     "category": [
       "Browsers"
     ],
-    "icon": "/icons/vivaldi.svg",
+    "icon": "./icons/vivaldi.svg",
     "wingetId": "Vivaldi.Vivaldi",
     "estimatedSize": 105,
     "tags": [
@@ -1818,7 +1818,7 @@
       "Browsers",
       "Security"
     ],
-    "icon": "/icons/librewolf.svg",
+    "icon": "./icons/librewolf.svg",
     "wingetId": "LibreWolf.LibreWolf",
     "estimatedSize": 85,
     "tags": [
@@ -1841,7 +1841,7 @@
       "Browsers",
       "Security"
     ],
-    "icon": "/icons/tor.svg",
+    "icon": "./icons/tor.svg",
     "wingetId": "TorProject.TorBrowser",
     "estimatedSize": 100,
     "tags": [
@@ -1865,7 +1865,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/afterburner.svg",
+    "icon": "./icons/afterburner.svg",
     "wingetId": "Guru3D.Afterburner",
     "estimatedSize": 55,
     "tags": [
@@ -1888,7 +1888,7 @@
     "category": [
       "Gaming"
     ],
-    "icon": "/icons/heroic.svg",
+    "icon": "./icons/heroic.svg",
     "wingetId": "HeroicGamesLauncher.HeroicGamesLauncher",
     "estimatedSize": 110,
     "tags": [
@@ -1911,7 +1911,7 @@
       "Gaming",
       "Media"
     ],
-    "icon": "/icons/retroarch.svg",
+    "icon": "./icons/retroarch.svg",
     "wingetId": "Libretro.RetroArch",
     "estimatedSize": 190,
     "tags": [
@@ -1936,7 +1936,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/localsend.svg",
+    "icon": "./icons/localsend.svg",
     "wingetId": "LocalSend.LocalSend",
     "estimatedSize": 30,
     "tags": [
@@ -1960,7 +1960,7 @@
       "Utilities",
       "Essential"
     ],
-    "icon": "/icons/ventoy.svg",
+    "icon": "./icons/ventoy.svg",
     "wingetId": "Ventoy.Ventoy",
     "estimatedSize": 16,
     "tags": [
@@ -1982,7 +1982,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/balenaetcher.svg",
+    "icon": "./icons/balenaetcher.svg",
     "wingetId": "Balena.Etcher",
     "estimatedSize": 140,
     "tags": [
@@ -2004,7 +2004,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/jdownloader.svg",
+    "icon": "./icons/jdownloader.svg",
     "wingetId": "AppWork.JDownloader",
     "estimatedSize": 50,
     "tags": [
@@ -2026,7 +2026,7 @@
       "Utilities",
       "Security"
     ],
-    "icon": "/icons/tailscale.svg",
+    "icon": "./icons/tailscale.svg",
     "wingetId": "Tailscale.Tailscale",
     "estimatedSize": 45,
     "tags": [
@@ -2050,7 +2050,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/pdf24.svg",
+    "icon": "./icons/pdf24.svg",
     "wingetId": "geeksoftwareGmbH.PDF24Creator",
     "estimatedSize": 340,
     "tags": [
@@ -2074,7 +2074,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/wisediskcleaner.svg",
+    "icon": "./icons/wisediskcleaner.svg",
     "wingetId": "WiseCleaner.WiseDiskCleaner",
     "estimatedSize": 12,
     "tags": [
@@ -2097,7 +2097,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/ccleaner.svg",
+    "icon": "./icons/ccleaner.svg",
     "wingetId": "Piriform.CCleaner",
     "estimatedSize": 75,
     "tags": [
@@ -2121,7 +2121,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/googledrive.svg",
+    "icon": "./icons/googledrive.svg",
     "wingetId": "Google.GoogleDrive",
     "estimatedSize": 120,
     "tags": [
@@ -2144,7 +2144,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/dropbox.svg",
+    "icon": "./icons/dropbox.svg",
     "wingetId": "Dropbox.Dropbox",
     "estimatedSize": 220,
     "tags": [
@@ -2167,7 +2167,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/cinebench.svg",
+    "icon": "./icons/cinebench.svg",
     "wingetId": "Maxon.CinebenchR23",
     "estimatedSize": 250,
     "tags": [
@@ -2191,7 +2191,7 @@
       "Utilities",
       "Gaming"
     ],
-    "icon": "/icons/furmark.svg",
+    "icon": "./icons/furmark.svg",
     "wingetId": "Geeks3D.FurMark.2",
     "estimatedSize": 35,
     "tags": [
@@ -2215,7 +2215,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/occt.svg",
+    "icon": "./icons/occt.svg",
     "wingetId": "OCBase.OCCT.Personal",
     "estimatedSize": 110,
     "tags": [
@@ -2239,7 +2239,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/geekbench.svg",
+    "icon": "./icons/geekbench.svg",
     "wingetId": "PrimateLabs.Geekbench.6",
     "estimatedSize": 130,
     "tags": [
@@ -2262,7 +2262,7 @@
     "category": [
       "Utilities"
     ],
-    "icon": "/icons/aida64.svg",
+    "icon": "./icons/aida64.svg",
     "wingetId": "FinalWire.AIDA64.Extreme",
     "estimatedSize": 65,
     "tags": [
@@ -2286,7 +2286,7 @@
       "Development",
       "Utilities"
     ],
-    "icon": "/icons/wireshark.svg",
+    "icon": "./icons/wireshark.svg",
     "wingetId": "WiresharkFoundation.Wireshark",
     "estimatedSize": 85,
     "tags": [
@@ -2311,7 +2311,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/cloudflare.svg",
+    "icon": "./icons/cloudflare.svg",
     "wingetId": "Cloudflare.Warp",
     "estimatedSize": 95,
     "tags": [
@@ -2336,7 +2336,7 @@
       "Utilities",
       "Development"
     ],
-    "icon": "/icons/angryip.svg",
+    "icon": "./icons/angryip.svg",
     "wingetId": "angryziber.AngryIPScanner",
     "estimatedSize": 6,
     "tags": [
@@ -2360,7 +2360,7 @@
       "Utilities",
       "Development"
     ],
-    "icon": "/icons/mremoteng.svg",
+    "icon": "./icons/mremoteng.svg",
     "wingetId": "mRemoteNG.mRemoteNG",
     "estimatedSize": 45,
     "tags": [
@@ -2385,7 +2385,7 @@
       "Utilities",
       "Recommended"
     ],
-    "icon": "/icons/protonvpn.svg",
+    "icon": "./icons/protonvpn.svg",
     "wingetId": "Proton.ProtonVPN",
     "estimatedSize": 110,
     "tags": [
@@ -2409,7 +2409,7 @@
       "Security",
       "Utilities"
     ],
-    "icon": "/icons/1password.svg",
+    "icon": "./icons/1password.svg",
     "wingetId": "AgileBits.1Password",
     "estimatedSize": 90,
     "tags": [
@@ -2433,7 +2433,7 @@
       "Development",
       "Recommended"
     ],
-    "icon": "/icons/figma.svg",
+    "icon": "./icons/figma.svg",
     "wingetId": "Figma.Figma",
     "estimatedSize": 120,
     "tags": [
@@ -2459,7 +2459,7 @@
       "Office",
       "Utilities"
     ],
-    "icon": "/icons/drawio.svg",
+    "icon": "./icons/drawio.svg",
     "wingetId": "JGraph.Draw",
     "estimatedSize": 110,
     "tags": [
@@ -2483,7 +2483,7 @@
       "Office",
       "Utilities"
     ],
-    "icon": "/icons/xmind.svg",
+    "icon": "./icons/xmind.svg",
     "wingetId": "Xmind.Xmind",
     "estimatedSize": 170,
     "tags": [
@@ -2507,7 +2507,7 @@
       "Media",
       "Graphics"
     ],
-    "icon": "/icons/shotcut.svg",
+    "icon": "./icons/shotcut.svg",
     "wingetId": "Meltytech.Shotcut",
     "estimatedSize": 95,
     "tags": [
@@ -2531,7 +2531,7 @@
       "Media",
       "Graphics"
     ],
-    "icon": "/icons/kdenlive.svg",
+    "icon": "./icons/kdenlive.svg",
     "wingetId": "KDE.Kdenlive",
     "estimatedSize": 115,
     "tags": [
@@ -2555,7 +2555,7 @@
       "Gaming",
       "Utilities"
     ],
-    "icon": "/icons/playnite.svg",
+    "icon": "./icons/playnite.svg",
     "wingetId": "Playnite.Playnite",
     "estimatedSize": 130,
     "tags": [
@@ -2578,7 +2578,7 @@
     "category": [
       "Gaming"
     ],
-    "icon": "/icons/goggalaxy.svg",
+    "icon": "./icons/goggalaxy.svg",
     "wingetId": "GOG.Galaxy",
     "estimatedSize": 260,
     "tags": [
@@ -2601,7 +2601,7 @@
     "category": [
       "Gaming"
     ],
-    "icon": "/icons/ubisoft.svg",
+    "icon": "./icons/ubisoft.svg",
     "wingetId": "Ubisoft.Connect",
     "estimatedSize": 240,
     "tags": [
@@ -2624,7 +2624,7 @@
     "category": [
       "Gaming"
     ],
-    "icon": "/icons/ea.svg",
+    "icon": "./icons/ea.svg",
     "wingetId": "ElectronicArts.EADesktop",
     "estimatedSize": 150,
     "tags": [
@@ -2651,7 +2651,7 @@
       "Recommended",
       "Essential"
     ],
-    "icon": "/icons/windowsterminal.svg",
+    "icon": "./icons/windowsterminal.svg",
     "wingetId": "Microsoft.WindowsTerminal",
     "estimatedSize": 40,
     "tags": [
@@ -2676,7 +2676,7 @@
       "Development",
       "Utilities"
     ],
-    "icon": "/icons/sublimetext.svg",
+    "icon": "./icons/sublimetext.svg",
     "wingetId": "SublimeHQ.SublimeText.4",
     "estimatedSize": 25,
     "tags": [
@@ -2699,7 +2699,7 @@
     "category": [
       "Development"
     ],
-    "icon": "/icons/java.svg",
+    "icon": "./icons/java.svg",
     "wingetId": "EclipseAdoptium.Temurin.21.JDK",
     "estimatedSize": 190,
     "tags": [
@@ -2724,7 +2724,7 @@
       "Communication",
       "Recommended"
     ],
-    "icon": "/icons/slack.svg",
+    "icon": "./icons/slack.svg",
     "wingetId": "SlackTechnologies.Slack",
     "estimatedSize": 160,
     "tags": [
@@ -2748,7 +2748,7 @@
       "Communication",
       "Security"
     ],
-    "icon": "/icons/signal.svg",
+    "icon": "./icons/signal.svg",
     "wingetId": "OpenWhisperSystems.Signal",
     "estimatedSize": 140,
     "tags": [

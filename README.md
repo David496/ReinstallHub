@@ -30,18 +30,18 @@
 
 ---
 
-## ⚡ Descarga Rápida
+## ⚡ Descarga Rápida (100% Portable para USB)
 
-No necesitas compilar nada para comenzar a usar ReInstall Hub. Puedes descargar el ejecutable listo para usar:
+No necesitas instalar absolutamente nada en tu computadora ni en la de tus clientes:
 
 1. Ve a la sección de **[Releases](../../releases)** del repositorio.
-2. Descarga el archivo autónomo:
-   - **`ReInstall-Hub-Portable-1.0.0.exe`**: Ejecutable 100% portable. No requiere instalación. Cópialo a tu pendrive USB y haz doble clic en cualquier PC.
-   - **`ReInstall-Hub-Setup-1.0.0.exe`**: Instalador tradicional con accesos directos si deseas dejarlo fijo en tu sistema.
-3. ¡Listo! Al abrirlo, detectará tu conexión y el catálogo oficial estará disponible inmediatamente.
+2. Descarga la versión que prefieras:
+   - **📁 `ReInstall-Hub-Portable-Folder-1.0.0.zip` (Recomendado)**: La carpeta portable completa del programa comprimida. Descomprímela directamente en tu memoria USB y tendrás la carpeta con `ReInstall Hub.exe`, su carpeta de perfiles y todos sus recursos listos.
+   - **📦 `ReInstall-Hub-Portable-1.0.0.exe`**: El programa completo en un único archivo ejecutable portable autónomo.
+3. ¡Listo! Cópialo a tu USB y haz doble clic en cualquier computadora con Windows.
 
 > [!TIP]
-> **Recomendación para Técnicos**: Haz clic derecho sobre el ejecutable y selecciona **"Ejecutar como administrador"** para que las instalaciones se realicen en segundo plano sin pedir confirmaciones de UAC por cada aplicación.
+> **Recomendación para Técnicos**: Haz clic derecho sobre `ReInstall Hub.exe` y selecciona **"Ejecutar como administrador"** para que las instalaciones se realicen en segundo plano sin pedir confirmaciones de UAC por cada aplicación.
 
 ---
 
