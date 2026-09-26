@@ -23,7 +23,7 @@ export const AboutPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-win-text">ReInstall Hub</h2>
             <span className="px-2 py-0.5 rounded-full text-xs font-mono bg-win-primary/20 text-win-accent border border-win-primary/30">
-              v1.0.0
+              v1.0.1
             </span>
           </div>
           <p className="text-xs text-win-muted mt-1 leading-relaxed">

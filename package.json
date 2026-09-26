@@ -1,6 +1,6 @@
 {
   "name": "reinstall-hub",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Windows Post-Format Software Reinstallation Suite powered by WinGet",
   "main": "dist/main/main.js",
   "author": "ReInstall Hub Team",

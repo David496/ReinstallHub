@@ -5,7 +5,7 @@
   <p>Instala en lote todas tus aplicaciones esenciales tras formatear un equipo con un solo clic. Portabilidad total en USB, perfiles inteligentes y cero residuos.</p>
 
   <p>
-    <a href="#-descarga-rápida"><img src="https://img.shields.io/badge/Descargar-Portable%20v1.0.0-0284c7?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar Portable" /></a>
+    <a href="#-descarga-rápida"><img src="https://img.shields.io/badge/Descargar-Portable%20v1.0.1-0284c7?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar Portable" /></a>
     <img src="https://img.shields.io/badge/Plataforma-Windows%2010%20%7C%2011%20(64--bit)-0078D6?style=for-the-badge&logo=windows11&logoColor=white" alt="Windows 10/11" />
     <img src="https://img.shields.io/badge/Licencia-MIT-emerald?style=for-the-badge" alt="Licencia MIT" />
   </p>
@@ -36,8 +36,8 @@ No necesitas instalar absolutamente nada en tu computadora ni en la de tus clien
 
 1. Ve a la sección de **[Releases](../../releases)** del repositorio.
 2. Descarga la versión que prefieras:
-   - **📁 `ReInstall-Hub-Portable-Folder-1.0.0.zip` (Recomendado)**: La carpeta portable completa del programa comprimida. Descomprímela directamente en tu memoria USB y tendrás la carpeta con `ReInstall Hub.exe`, su carpeta de perfiles y todos sus recursos listos.
-   - **📦 `ReInstall-Hub-Portable-1.0.0.exe`**: El programa completo en un único archivo ejecutable portable autónomo.
+   - **📁 `ReInstall-Hub-Portable-Folder-1.0.1.zip` (Recomendado)**: La carpeta portable completa del programa comprimida. Descomprímela directamente en tu memoria USB y tendrás la carpeta con `ReInstall Hub.exe`, su carpeta de perfiles y todos sus recursos listos.
+   - **📦 `ReInstall-Hub-Portable-1.0.1.exe`**: El programa completo en un único archivo ejecutable portable autónomo.
 3. ¡Listo! Cópialo a tu USB y haz doble clic en cualquier computadora con Windows.
 
 > [!TIP]
@@ -159,12 +159,12 @@ npm test
 # Compilar frontend y backend
 npm run build
 
-# Generar el ejecutable portable y el instalador NSIS
+# Generar los paquetes portables (Carpeta ZIP y Ejecutable Autónomo)
 npm run package
 ```
 Los archivos finales se ubicarán en la carpeta `release/`:
-- `release/ReInstall-Hub-Portable-1.0.0.exe`
-- `release/ReInstall-Hub-Setup-1.0.0.exe`
+- `release/ReInstall-Hub-Portable-Folder-1.0.1.zip`
+- `release/ReInstall-Hub-Portable-1.0.1.exe`
 - `release/win-unpacked/` (carpeta desempaquetada lista para probar)
 
 ---
@@ -175,18 +175,18 @@ El repositorio incluye un flujo de trabajo de integración y despliegue continuo
 
 ```mermaid
 flowchart LR
-    A["git push tag (v1.0.0)"] --> B["Runner Windows-Latest"]
-    B --> C["npm test (Vitest)"]
-    C --> D["npm run build"]
+    A["git push tag (v1.0.1)"] --> B["Runner Windows-Latest"]
+    B --> C["npm test (Vitest: 47 pruebas)"]
+    B --> D["npm run build"]
     D --> E["electron-builder --win"]
     E --> F["Generación de Checksums SHA-256"]
     F --> G["Publicación Automática en GitHub Releases"]
 ```
 
-Cada vez que crees una etiqueta (por ejemplo `v1.0.0`) o actives el flujo manualmente desde la pestaña **Actions**:
+Cada vez que crees una etiqueta (por ejemplo `v1.0.1`) o actives el flujo manualmente desde la pestaña **Actions**:
 1. Un servidor con Windows en la nube descarga el código.
-2. Ejecuta automáticamente las 44 pruebas unitarias y la verificación de tipos.
-3. Compila el binario ejecutable portable y el instalador.
+2. Ejecuta automáticamente las 47 pruebas unitarias y la verificación de tipos.
+3. Compila la carpeta portable y el ejecutable portable independiente.
 4. Genera los hashes criptográficos de integridad (SHA-256).
 5. Crea una nueva versión en **GitHub Releases** con los ejecutables adjuntos para descarga directa.
 
