@@ -68,7 +68,7 @@ export const InstallConfirmModal: React.FC = () => {
         ) : (
           <div className="flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg">
             <ShieldCheck className="w-4 h-4 flex-shrink-0 text-emerald-500" />
-            <span>Sesión con permisos de Administrador: las aplicaciones se instalarán de forma fluida y sin pausas de UAC.</span>
+            <span>{t.modals.adminSessionNotice}</span>
           </div>
         )}
 

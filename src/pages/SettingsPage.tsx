@@ -17,7 +17,10 @@ export const SettingsPage: React.FC = () => {
   };
 
   const handleResetDefaults = () => {
-    updateSettings(DEFAULT_SETTINGS);
+    updateSettings({
+      ...DEFAULT_SETTINGS,
+      customProfiles: settings.customProfiles,
+    });
     showSaveSuccess();
   };
 

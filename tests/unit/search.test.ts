@@ -32,10 +32,16 @@ describe('LocalSoftwareProvider - Catalog Search & Filtering', () => {
     expect(archiveApps.some((s) => s.id === '7zip')).toBe(true);
   });
 
-  it('searches by Spanish description or keywords', async () => {
-    const officeApps = await provider.search('ofimatica');
-    expect(officeApps.length).toBeGreaterThan(0);
-    expect(officeApps.some((s) => s.id === 'onlyoffice' || s.id === 'libreoffice')).toBe(true);
+  it('searches by Spanish description or keywords with and without accents', async () => {
+    const officeWithoutAccent = await provider.search('ofimatica');
+    const officeWithAccent = await provider.search('ofimática');
+    expect(officeWithoutAccent.length).toBeGreaterThan(0);
+    expect(officeWithAccent.length).toBe(officeWithoutAccent.length);
+    expect(officeWithAccent.some((s) => s.id === 'onlyoffice' || s.id === 'libreoffice')).toBe(true);
+
+    const videoWithAccent = await provider.search('edición');
+    const videoWithoutAccent = await provider.search('edicion');
+    expect(videoWithAccent.length).toBe(videoWithoutAccent.length);
   });
 
   it('finds requested Office and PDF Reader tools', async () => {

@@ -93,7 +93,7 @@ export const ProfileSelector: React.FC = () => {
       if (result.success) {
         setIsOpen(false);
       } else {
-        alert(t.profiles.invalidFile);
+        alert(result.error === 'noMatchingSoftware' ? t.profiles.noMatchingSoftware : t.profiles.invalidFile);
       }
     } catch {
       alert(t.profiles.invalidFile);
@@ -330,12 +330,14 @@ export const ProfileSelector: React.FC = () => {
             </button>
 
             <button
-              onClick={() => electronApi.settings.openProfilesFolder()}
+              onClick={() => {
+                electronApi.settings.openProfilesFolder().catch(console.error);
+              }}
               className="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-win-card text-win-text transition-colors text-left"
               title={storageInfo?.profilesPath}
             >
               <FolderOpen className="w-3.5 h-3.5 text-amber-500" />
-              <span>{language === 'es' ? 'Abrir carpeta de perfiles' : 'Open profiles folder'}</span>
+              <span>{t.profiles.openProfilesFolder}</span>
             </button>
           </div>
 
@@ -344,21 +346,11 @@ export const ProfileSelector: React.FC = () => {
             <div className="flex items-center gap-1.5 truncate pr-2">
               <HardDrive className="w-3 h-3 text-win-primary flex-shrink-0" />
               <span className="truncate">
-                {storageInfo?.isPortable
-                  ? language === 'es'
-                    ? 'Modo Portable (USB / Carpeta)'
-                    : 'Portable Mode (USB / Folder)'
-                  : language === 'es'
-                  ? 'Almacenamiento Local'
-                  : 'Local Storage'}
+                {storageInfo?.isPortable ? t.profiles.storagePortable : t.profiles.storageLocal}
               </span>
             </div>
             <span className="font-mono text-[9px] text-emerald-500 font-semibold flex-shrink-0">
-              {storageInfo?.isPortable
-                ? language === 'es'
-                  ? 'Auto-Guardado USB'
-                  : 'Auto-Saved USB'
-                : 'AppData'}
+              {storageInfo?.isPortable ? t.profiles.autoSavedUsb : 'AppData'}
             </span>
           </div>
         </div>

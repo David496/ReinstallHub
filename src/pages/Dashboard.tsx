@@ -229,7 +229,14 @@ export const Dashboard: React.FC = () => {
               className="p-2.5 rounded-lg bg-win-panel border border-win-border hover:border-win-primary/40 hover:bg-win-card transition-all cursor-pointer flex items-center gap-2.5"
             >
               <div className="w-8 h-8 rounded-md bg-slate-100 dark:bg-black/25 p-1 flex items-center justify-center border border-win-border/50 flex-shrink-0">
-                <img src={app.icon} alt={app.name} className="w-full h-full object-contain" />
+                <img
+                  src={app.icon.startsWith('/') ? `.${app.icon}` : app.icon}
+                  alt={app.name}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = './icons/logo.png';
+                  }}
+                />
               </div>
               <div className="min-w-0 flex-1">
                 <h4 className="text-xs font-bold text-win-text truncate">{app.name}</h4>

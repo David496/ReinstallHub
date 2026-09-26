@@ -51,7 +51,7 @@ export const TitleBar: React.FC = () => {
 
         {/* Admin Elevation Status */}
         {isElevated ? (
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-500" title="Ejecutando con permisos elevados de Administrador">
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 border border-emerald-500/30 text-emerald-500" title={t.titleBar.adminTooltip}>
             <ShieldCheck className="w-3 h-3" />
             <span>{t.titleBar.adminBadge}</span>
           </div>
@@ -59,7 +59,7 @@ export const TitleBar: React.FC = () => {
           <button
             onClick={relaunchElevated}
             className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/15 border border-amber-500/30 text-amber-500 hover:bg-amber-500/25 transition-colors cursor-pointer"
-            title="Haz clic para reiniciar como Administrador y evitar pausas de UAC"
+            title={t.titleBar.relaunchAdminTooltip}
           >
             <ShieldAlert className="w-3 h-3" />
             <span>{t.titleBar.relaunchAdmin}</span>

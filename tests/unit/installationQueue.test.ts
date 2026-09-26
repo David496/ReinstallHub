@@ -110,4 +110,14 @@ describe('InstallationQueue - Queue Lifecycle & Error Policies', () => {
     expect(summary.failed).toBe(1);
     expect(summary.skipped).toBe(1);
   });
+
+  it('guarantees isActive is reset to false even if wingetService throws an unexpected error', async () => {
+    const queue = InstallationQueue.getInstance();
+    const wingetService = WingetService.getInstance();
+
+    vi.spyOn(wingetService, 'install').mockRejectedValueOnce(new Error('Unexpected process crash'));
+
+    await queue.startQueue([dummyApp1]);
+    expect(queue.getState().isActive).toBe(false);
+  });
 });

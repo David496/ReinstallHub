@@ -36,6 +36,20 @@ describe('platformUtils - translateWingetExitCode', () => {
     expect(res.message).toMatch(/cancelled by user/);
   });
 
+  it('translates package already installed exit code in signed and unsigned formats', () => {
+    const signedRes = translateWingetExitCode(-1978335156);
+    expect(signedRes.isSuccess).toBe(true);
+    expect(signedRes.message).toMatch(/already installed/);
+
+    const unsignedRes = translateWingetExitCode(2316632140); // 0x8A15004C unsigned
+    expect(unsignedRes.isSuccess).toBe(true);
+    expect(unsignedRes.message).toMatch(/already installed/);
+
+    const hexRes = translateWingetExitCode(0x8A15004C);
+    expect(hexRes.isSuccess).toBe(true);
+    expect(hexRes.message).toMatch(/already installed/);
+  });
+
   it('handles unknown exit code gracefully', () => {
     const res = translateWingetExitCode(9999);
     expect(res.isSuccess).toBe(false);

@@ -84,7 +84,7 @@ export const CatalogToolbar: React.FC<CatalogToolbarProps> = ({
               <button
                 onClick={() => onSearchChange('')}
                 className="p-1 text-win-muted hover:text-win-text rounded hover:bg-win-card"
-                title="Borrar búsqueda"
+                title={t.catalog.clearSearch}
               >
                 <X className="w-3 h-3" />
               </button>

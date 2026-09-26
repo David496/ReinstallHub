@@ -302,7 +302,7 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
 
   // Filter software by search query and category
   const filteredSoftware = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = searchQuery.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const cat = selectedCategory;
 
     return softwareList.filter((app) => {
@@ -315,13 +315,18 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
       // Search filter
       if (!q) return true;
 
-      const nameMatch = app.name.toLowerCase().includes(q);
-      const idMatch = app.wingetId.toLowerCase().includes(q) || app.id.toLowerCase().includes(q);
-      const pubMatch = app.publisher ? app.publisher.toLowerCase().includes(q) : false;
-      const descMatch = app.description.toLowerCase().includes(q);
-      const tagMatch = app.tags ? app.tags.some((t) => t.toLowerCase().includes(q)) : false;
+      const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-      return nameMatch || idMatch || pubMatch || descMatch || tagMatch;
+      const nameMatch = norm(app.name).includes(q);
+      const idMatch = norm(app.wingetId).includes(q) || norm(app.id).includes(q);
+      const pubMatch = app.publisher ? norm(app.publisher).includes(q) : false;
+      const descMatch =
+        norm(app.description).includes(q) ||
+        (app.descriptionEs ? norm(app.descriptionEs).includes(q) : false);
+      const tagMatch = app.tags ? app.tags.some((t) => norm(t).includes(q)) : false;
+      const categoryMatch = app.category.some((c) => norm(c).includes(q));
+
+      return nameMatch || idMatch || pubMatch || descMatch || tagMatch || categoryMatch;
     });
   }, [softwareList, searchQuery, selectedCategory]);
 
@@ -482,14 +487,31 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
       if (!targetProfile.name || !Array.isArray(targetProfile.softwareIds) || targetProfile.softwareIds.length === 0) {
         return { success: false, error: 'invalidFile' };
       }
+
+      // Match by either software.id or software.wingetId and normalize to catalog software.id
+      const matchedIds: string[] = [];
+      for (const rawId of targetProfile.softwareIds) {
+        const idLower = String(rawId).toLowerCase().trim();
+        const found = softwareList.find(
+          (s) => s.id.toLowerCase() === idLower || s.wingetId.toLowerCase() === idLower
+        );
+        if (found && !matchedIds.includes(found.id)) {
+          matchedIds.push(found.id);
+        }
+      }
+
+      if (matchedIds.length === 0) {
+        return { success: false, error: 'noMatchingSoftware' };
+      }
+
       const imported: Profile = {
         id: `imported-${Date.now()}`,
         name: targetProfile.name,
         description: targetProfile.description || '',
-        softwareIds: targetProfile.softwareIds.filter((id) => softwareList.some((s) => s.id === id)),
+        softwareIds: matchedIds,
         isDefault: false,
         createdAt: new Date().toISOString(),
-        icon: 'Bookmark',
+        icon: targetProfile.icon || 'Bookmark',
       };
       const currentCustom = settings.customProfiles || [];
       const updated = [...currentCustom, imported];

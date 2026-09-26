@@ -32,13 +32,16 @@ export function translateWingetExitCode(code: number | null | undefined): { mess
     return { message: 'Installed successfully. System reboot initiated.', isSuccess: true, needsReboot: true };
   }
 
+  // Normalize 32-bit Windows NTSTATUS / HRESULT codes between signed and unsigned
+  const normalizedCode = typeof code === 'number' ? (code | 0) : code;
+
   // Common MSI & WinGet Exit Codes
-  switch (code) {
+  switch (normalizedCode) {
     case -1073741510:
     case 1:
       return { message: 'Installation process was cancelled or interrupted.', isSuccess: false };
     case 5:
-    case 0x80070005:
+    case (0x80070005 | 0):
       return { message: 'Access denied. Administrator privileges (UAC) are required.', isSuccess: false };
     case 1602:
       return { message: 'Installation cancelled by user.', isSuccess: false };
@@ -58,7 +61,7 @@ export function translateWingetExitCode(code: number | null | undefined): { mess
       return { message: 'Failed to download installer package. Check network connection.', isSuccess: false };
     case -1978335150: // 0x8A150052
       return { message: 'Installer hash verification failed (corrupted download).', isSuccess: false };
-    case -1978335156: // 0x8A15004C
+    case -1978335156: // 0x8A15004C (WINGET_INSTALLED_PACKAGE_ALREADY_INSTALLED)
       return { message: 'The exact package version is already installed on this machine.', isSuccess: true };
     case -1978335231: // 0x8A150001
       return { message: 'Internal WinGet package manager error.', isSuccess: false };

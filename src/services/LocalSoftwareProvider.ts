@@ -28,7 +28,7 @@ export class LocalSoftwareProvider implements SoftwareProvider {
 
   public async search(query: string, category?: string): Promise<Software[]> {
     const all = await this.getAll();
-    const cleanQuery = query.trim().toLowerCase();
+    const cleanQuery = query.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
     const cleanCategory = category && category !== 'All' ? category.toLowerCase() : null;
 
     return all.filter((app) => {
@@ -45,21 +45,23 @@ export class LocalSoftwareProvider implements SoftwareProvider {
         return true;
       }
 
+      const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
       // Search by:
       // 1. Name
       // 2. Winget ID (e.g. "Microsoft.VisualStudioCode")
       // 3. Publisher
-      // 4. Description
+      // 4. Description (EN & ES)
       // 5. Tags
       // 6. Category names
-      const nameMatch = app.name.toLowerCase().includes(cleanQuery);
-      const idMatch = app.wingetId.toLowerCase().includes(cleanQuery) || app.id.toLowerCase().includes(cleanQuery);
-      const publisherMatch = app.publisher ? app.publisher.toLowerCase().includes(cleanQuery) : false;
+      const nameMatch = norm(app.name).includes(cleanQuery);
+      const idMatch = norm(app.wingetId).includes(cleanQuery) || norm(app.id).includes(cleanQuery);
+      const publisherMatch = app.publisher ? norm(app.publisher).includes(cleanQuery) : false;
       const descMatch =
-        app.description.toLowerCase().includes(cleanQuery) ||
-        (app.descriptionEs ? app.descriptionEs.toLowerCase().includes(cleanQuery) : false);
-      const tagMatch = app.tags ? app.tags.some((t) => t.toLowerCase().includes(cleanQuery)) : false;
-      const categoryMatch = app.category.some((c) => c.toLowerCase().includes(cleanQuery));
+        norm(app.description).includes(cleanQuery) ||
+        (app.descriptionEs ? norm(app.descriptionEs).includes(cleanQuery) : false);
+      const tagMatch = app.tags ? app.tags.some((t) => norm(t).includes(cleanQuery)) : false;
+      const categoryMatch = app.category.some((c) => norm(c).includes(cleanQuery));
 
       return nameMatch || idMatch || publisherMatch || descMatch || tagMatch || categoryMatch;
     });

@@ -77,4 +77,25 @@ describe('Profile Manager - Presets & Integrity', () => {
     expect(filteredIds).toEqual(['crystaldiskinfo', 'vscode']);
     expect(filteredIds).not.toContain('non-existent-app-999');
   });
+
+  it('resolves software IDs on import using either internal id or wingetId', () => {
+    const rawImport = {
+      name: 'Power Profile',
+      softwareIds: ['Microsoft.VisualStudioCode', '7zip'],
+    };
+
+    const matchedIds: string[] = [];
+    for (const rawId of rawImport.softwareIds) {
+      const idLower = rawId.toLowerCase().trim();
+      const found = softwareCatalog.find(
+        (s) => s.id.toLowerCase() === idLower || s.wingetId.toLowerCase() === idLower
+      );
+      if (found && !matchedIds.includes(found.id)) {
+        matchedIds.push(found.id);
+      }
+    }
+
+    expect(matchedIds).toContain('vscode');
+    expect(matchedIds).toContain('7zip');
+  });
 });

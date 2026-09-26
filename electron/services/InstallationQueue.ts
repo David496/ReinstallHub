@@ -106,88 +106,93 @@ export class InstallationQueue {
     let cancelledCount = 0;
     let skippedCount = 0;
 
-    for (let i = 0; i < tasks.length; i++) {
-      if (this.cancelRequested) {
-        for (let j = i; j < tasks.length; j++) {
-          tasks[j].status = 'cancelled';
-          tasks[j].error = 'Installation cancelled by user.';
-          cancelledCount++;
-          this.emitTaskStatus(tasks[j]);
-        }
-        break;
-      }
-
-      this.state.currentTaskIndex = i;
-      const currentTask = tasks[i];
-      currentTask.status = 'installing';
-      currentTask.startedAt = new Date().toISOString();
-      this.emitState();
-      this.emitTaskStatus(currentTask);
-
-      this.logger.info(`[Queue ${i + 1}/${tasks.length}] Installing ${currentTask.software.name}...`);
-
-      const result = await this.wingetService.install(
-        currentTask.software,
-        currentOptions,
-        (stream, line) => {
-          if (this.window && !this.window.isDestroyed()) {
-            this.window.webContents.send('installation:stream', {
-              softwareId: currentTask.software.id,
-              stream,
-              line,
-            });
-          }
-        }
-      );
-
-      currentTask.completedAt = new Date().toISOString();
-      currentTask.exitCode = result.exitCode;
-      currentTask.details = result.message;
-
-      if (result.wasCancelled || this.cancelRequested) {
-        currentTask.status = 'cancelled';
-        currentTask.error = 'Cancelled by user.';
-        cancelledCount++;
-        this.emitTaskStatus(currentTask);
-
-        // Cancel all remaining tasks
-        for (let j = i + 1; j < tasks.length; j++) {
-          tasks[j].status = 'cancelled';
-          tasks[j].error = 'Queue cancelled by user.';
-          cancelledCount++;
-          this.emitTaskStatus(tasks[j]);
-        }
-        break;
-      } else if (result.success) {
-        currentTask.status = 'installed';
-        installedCount++;
-      } else {
-        currentTask.status = 'failed';
-        currentTask.error = result.message;
-        failedCount++;
-
-        // Check stop-on-error policy
-        if (currentOptions.stopOnError) {
-          this.logger.error(`Stopping queue because an error occurred and stopOnError is enabled.`);
-          for (let j = i + 1; j < tasks.length; j++) {
-            tasks[j].status = 'skipped';
-            tasks[j].error = 'Skipped because previous installation failed.';
-            skippedCount++;
+    try {
+      for (let i = 0; i < tasks.length; i++) {
+        if (this.cancelRequested) {
+          for (let j = i; j < tasks.length; j++) {
+            tasks[j].status = 'cancelled';
+            tasks[j].error = 'Installation cancelled by user.';
+            cancelledCount++;
             this.emitTaskStatus(tasks[j]);
           }
-          this.emitTaskStatus(currentTask);
           break;
         }
-      }
 
-      this.emitTaskStatus(currentTask);
+        this.state.currentTaskIndex = i;
+        const currentTask = tasks[i];
+        currentTask.status = 'installing';
+        currentTask.startedAt = new Date().toISOString();
+        this.emitState();
+        this.emitTaskStatus(currentTask);
+
+        this.logger.info(`[Queue ${i + 1}/${tasks.length}] Installing ${currentTask.software.name}...`);
+
+        const result = await this.wingetService.install(
+          currentTask.software,
+          currentOptions,
+          (stream, line) => {
+            if (this.window && !this.window.isDestroyed()) {
+              this.window.webContents.send('installation:stream', {
+                softwareId: currentTask.software.id,
+                stream,
+                line,
+              });
+            }
+          }
+        );
+
+        currentTask.completedAt = new Date().toISOString();
+        currentTask.exitCode = result.exitCode;
+        currentTask.details = result.message;
+
+        if (result.wasCancelled || this.cancelRequested) {
+          currentTask.status = 'cancelled';
+          currentTask.error = 'Cancelled by user.';
+          cancelledCount++;
+          this.emitTaskStatus(currentTask);
+
+          // Cancel all remaining tasks
+          for (let j = i + 1; j < tasks.length; j++) {
+            tasks[j].status = 'cancelled';
+            tasks[j].error = 'Queue cancelled by user.';
+            cancelledCount++;
+            this.emitTaskStatus(tasks[j]);
+          }
+          break;
+        } else if (result.success) {
+          currentTask.status = 'installed';
+          installedCount++;
+        } else {
+          currentTask.status = 'failed';
+          currentTask.error = result.message;
+          failedCount++;
+
+          // Check stop-on-error policy
+          if (currentOptions.stopOnError) {
+            this.logger.error(`Stopping queue because an error occurred and stopOnError is enabled.`);
+            for (let j = i + 1; j < tasks.length; j++) {
+              tasks[j].status = 'skipped';
+              tasks[j].error = 'Skipped because previous installation failed.';
+              skippedCount++;
+              this.emitTaskStatus(tasks[j]);
+            }
+            this.emitTaskStatus(currentTask);
+            break;
+          }
+        }
+
+        this.emitTaskStatus(currentTask);
+        this.emitState();
+      }
+    } catch (err: any) {
+      this.logger.error(`Unexpected queue execution error: ${err.message}`);
+    } finally {
+      this.state.isActive = false;
+      this.state.completedAt = new Date().toISOString();
       this.emitState();
     }
 
     const durationMs = Date.now() - startTime;
-    this.state.isActive = false;
-    this.state.completedAt = new Date().toISOString();
-    this.emitState();
 
     const summary: InstallationSummaryData = {
       total: tasks.length,
