@@ -7,7 +7,7 @@ import { useAppStore } from '../../store/applicationStore';
 export const TitleBar: React.FC = () => {
   const [isMaximized, setIsMaximized] = useState(false);
   const { isWingetAvailable, wingetVersion } = useWinget();
-  const { t, isElevated, relaunchElevated } = useAppStore();
+  const { t, isElevated, relaunchElevated, setIsInstallWingetModalOpen } = useAppStore();
 
   useEffect(() => {
     electronApi.app.isMaximized().then(setIsMaximized);
@@ -33,21 +33,23 @@ export const TitleBar: React.FC = () => {
       {/* Center: WinGet Status & Elevation Pill */}
       <div className="hidden sm:flex items-center gap-2 app-region-no-drag">
         {/* WinGet Status Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-win-panel/80">
-          {isWingetAvailable ? (
-            <>
-              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-              <span className="text-emerald-400">
-                {t.titleBar.wingetAvailable} {wingetVersion ? `v${wingetVersion}` : ''}
-              </span>
-            </>
-          ) : (
-            <>
-              <AlertCircle className="w-3 h-3 text-amber-400" />
-              <span className="text-amber-400">{t.titleBar.wingetNotFound}</span>
-            </>
-          )}
-        </div>
+        {isWingetAvailable ? (
+          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border bg-win-panel/80">
+            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+            <span className="text-emerald-400">
+              {t.titleBar.wingetAvailable} {wingetVersion ? `v${wingetVersion}` : ''}
+            </span>
+          </div>
+        ) : (
+          <button
+            onClick={() => setIsInstallWingetModalOpen(true)}
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium border border-amber-500/40 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-all cursor-pointer"
+            title={t.installer.installWingetDesc}
+          >
+            <AlertCircle className="w-3 h-3 text-amber-400" />
+            <span>{t.installer.installBtn}</span>
+          </button>
+        )}
 
         {/* Admin Elevation Status */}
         {isElevated ? (

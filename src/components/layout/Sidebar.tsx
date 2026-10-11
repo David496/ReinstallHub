@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Package, Settings, Info, Terminal } from 'lucide-react';
+import { LayoutDashboard, Package, ArrowUpCircle, Settings, Info, Terminal } from 'lucide-react';
 import { useAppStore, NavTab } from '../../store/applicationStore';
 
 export const Sidebar: React.FC = () => {
@@ -7,6 +7,7 @@ export const Sidebar: React.FC = () => {
     activeTab,
     setActiveTab,
     selectedSoftwareIds,
+    upgrades,
     toggleLogPanel,
     isLogPanelOpen,
     logs,
@@ -24,6 +25,12 @@ export const Sidebar: React.FC = () => {
       label: t.sidebar.catalog,
       icon: <Package className="w-4 h-4" />,
       badge: selectedSoftwareIds.size > 0 ? selectedSoftwareIds.size : undefined,
+    },
+    {
+      id: 'updates',
+      label: t.sidebar.updates,
+      icon: <ArrowUpCircle className="w-4 h-4" />,
+      badge: upgrades.length > 0 ? upgrades.length : undefined,
     },
     {
       id: 'settings',

@@ -24,6 +24,7 @@ export const Dashboard: React.FC = () => {
     selectedSoftwareIds,
     setActiveTab,
     setIsConfirmModalOpen,
+    setIsInstallWingetModalOpen,
     settings,
     t,
   } = useAppStore();
@@ -59,6 +60,33 @@ export const Dashboard: React.FC = () => {
           </Button>
         }
       />
+
+      {/* Missing WinGet Engine Notice & 1-Click Installer Banner */}
+      {!isAvailable && (
+        <div className="p-3.5 rounded-xl bg-gradient-to-r from-amber-500/15 via-win-panel to-amber-500/10 border border-amber-500/30 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 flex-shrink-0">
+              <Download className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-xs font-bold text-win-text">{t.installer.installWingetTitle}</h3>
+              <p className="text-[11px] text-win-muted mt-0.5 max-w-xl">
+                {t.installer.notDetectedBanner}
+              </p>
+            </div>
+          </div>
+
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => setIsInstallWingetModalOpen(true)}
+            icon={<Download className="w-3.5 h-3.5" />}
+            className="flex-shrink-0 font-semibold"
+          >
+            {t.installer.installBtn}
+          </Button>
+        </div>
+      )}
 
       {/* Main Status Hero Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5">

@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { Software, CategoryType } from '../types/software';
 import { InstallationStatus, InstallationSummaryData, InstallationTask, QueueState } from '../types/installation';
-import { WingetInfo, InstalledApplication } from '../types/winget';
+import {
+  WingetInfo,
+  InstalledApplication,
+  PackageUpgrade,
+  WingetSearchResult,
+  WingetInstallProgress,
+} from '../types/winget';
 import { LogEntry } from '../types/log';
 import { AppSettings, DEFAULT_SETTINGS } from '../types/settings';
 import { Profile, ProfileExportData } from '../types/profile';
@@ -10,7 +16,7 @@ import { electronApi } from '../services/electronApi';
 import { softwareProvider } from '../services/LocalSoftwareProvider';
 import { Language, translations } from '../i18n/translations';
 
-export type NavTab = 'dashboard' | 'catalog' | 'settings' | 'about';
+export type NavTab = 'dashboard' | 'catalog' | 'updates' | 'settings' | 'about';
 
 interface ApplicationStoreContextType {
   // Language & Translations
@@ -29,6 +35,30 @@ interface ApplicationStoreContextType {
   installedApps: InstalledApplication[];
   installedWingetIdSet: Set<string>;
   refreshInstalledApps: () => Promise<void>;
+
+  // Updates & Uninstaller
+  upgrades: PackageUpgrade[];
+  isLoadingUpgrades: boolean;
+  refreshUpgrades: () => Promise<void>;
+  upgradePackage: (wingetId: string) => Promise<{ success: boolean; message: string }>;
+  upgradeAll: () => Promise<{ success: boolean; message: string }>;
+  isUpgrading: boolean;
+  uninstallPackage: (wingetId: string) => Promise<{ success: boolean; message: string }>;
+  isUninstalling: boolean;
+
+  // Online WinGet Search
+  onlineSearchResults: WingetSearchResult[];
+  isSearchingOnline: boolean;
+  searchOnline: (query: string) => Promise<void>;
+  clearOnlineSearch: () => void;
+  addCustomSoftware: (result: WingetSearchResult) => Software;
+
+  // WinGet Engine Installer
+  isInstallingEngine: boolean;
+  wingetInstallProgress: WingetInstallProgress | null;
+  installWingetEngine: () => Promise<{ success: boolean; message: string; version?: string }>;
+  isInstallWingetModalOpen: boolean;
+  setIsInstallWingetModalOpen: (open: boolean) => void;
 
   // Catalog & Search
   softwareList: Software[];
@@ -107,6 +137,21 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
   const [wingetInfo, setWingetInfo] = useState<WingetInfo | null>(null);
   const [isLoadingWinget, setIsLoadingWinget] = useState<boolean>(true);
   const [installedApps, setInstalledApps] = useState<InstalledApplication[]>([]);
+
+  // Updates & Uninstaller State
+  const [upgrades, setUpgrades] = useState<PackageUpgrade[]>([]);
+  const [isLoadingUpgrades, setIsLoadingUpgrades] = useState<boolean>(false);
+  const [isUpgrading, setIsUpgrading] = useState<boolean>(false);
+  const [isUninstalling, setIsUninstalling] = useState<boolean>(false);
+
+  // Online Search State
+  const [onlineSearchResults, setOnlineSearchResults] = useState<WingetSearchResult[]>([]);
+  const [isSearchingOnline, setIsSearchingOnline] = useState<boolean>(false);
+
+  // WinGet Engine Installer State
+  const [isInstallingEngine, setIsInstallingEngine] = useState<boolean>(false);
+  const [wingetInstallProgress, setWingetInstallProgress] = useState<WingetInstallProgress | null>(null);
+  const [isInstallWingetModalOpen, setIsInstallWingetModalOpen] = useState<boolean>(false);
 
   // Catalog State
   const [softwareList, setSoftwareList] = useState<Software[]>([]);
@@ -220,6 +265,145 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
     }
   }, []);
 
+  // Fetch Available Package Upgrades
+  const refreshUpgrades = useCallback(async () => {
+    setIsLoadingUpgrades(true);
+    try {
+      const up = await electronApi.winget.getUpgrades();
+      setUpgrades(up);
+    } catch {
+      setUpgrades([]);
+    } finally {
+      setIsLoadingUpgrades(false);
+    }
+  }, []);
+
+  // Upgrade a single package
+  const upgradePackage = useCallback(
+    async (wingetId: string) => {
+      setIsUpgrading(true);
+      try {
+        const res = await electronApi.winget.upgradePackage(wingetId, settings.installation);
+        if (res.success) {
+          setUpgrades((prev) => prev.filter((u) => u.id.toLowerCase() !== wingetId.toLowerCase()));
+          await refreshInstalledApps();
+        }
+        return res;
+      } finally {
+        setIsUpgrading(false);
+      }
+    },
+    [settings.installation, refreshInstalledApps]
+  );
+
+  // Upgrade all eligible packages
+  const upgradeAll = useCallback(async () => {
+    setIsUpgrading(true);
+    try {
+      const res = await electronApi.winget.upgradeAll(settings.installation);
+      await refreshUpgrades();
+      await refreshInstalledApps();
+      return res;
+    } finally {
+      setIsUpgrading(false);
+    }
+  }, [settings.installation, refreshUpgrades, refreshInstalledApps]);
+
+  // Clean Uninstall
+  const uninstallPackage = useCallback(
+    async (wingetId: string) => {
+      setIsUninstalling(true);
+      try {
+        const res = await electronApi.winget.uninstallPackage(wingetId);
+        if (res.success) {
+          setInstalledApps((prev) => prev.filter((a) => a.id.toLowerCase() !== wingetId.toLowerCase()));
+          setUpgrades((prev) => prev.filter((u) => u.id.toLowerCase() !== wingetId.toLowerCase()));
+        }
+        return res;
+      } finally {
+        setIsUninstalling(false);
+      }
+    },
+    []
+  );
+
+  // Search online in WinGet repository
+  const searchOnline = useCallback(async (query: string) => {
+    if (!query || query.trim().length < 2) {
+      setOnlineSearchResults([]);
+      return;
+    }
+    setIsSearchingOnline(true);
+    try {
+      const res = await electronApi.winget.searchOnline(query.trim());
+      setOnlineSearchResults(res);
+    } catch {
+      setOnlineSearchResults([]);
+    } finally {
+      setIsSearchingOnline(false);
+    }
+  }, []);
+
+  const clearOnlineSearch = useCallback(() => {
+    setOnlineSearchResults([]);
+  }, []);
+
+  // Add search result to custom catalog
+  const addCustomSoftware = useCallback(
+    (result: WingetSearchResult): Software => {
+      const existing = softwareList.find((s) => s.wingetId.toLowerCase() === result.id.toLowerCase());
+      if (existing) {
+        setSelectedSoftwareIds((prev) => {
+          const next = new Set(prev);
+          next.add(existing.id);
+          return next;
+        });
+        return existing;
+      }
+
+      const newSoftware: Software = {
+        id: `custom-${result.id.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+        name: result.name,
+        wingetId: result.id,
+        description: `WinGet v${result.version} (${result.source})`,
+        category: ['Utilities'],
+        tags: ['custom', 'winget', 'community'],
+        icon: '',
+        recommended: false,
+      };
+
+      setSoftwareList((prev) => [newSoftware, ...prev]);
+      setSelectedSoftwareIds((prev) => {
+        const next = new Set(prev);
+        next.add(newSoftware.id);
+        return next;
+      });
+      return newSoftware;
+    },
+    [softwareList]
+  );
+
+  // Install WinGet Engine
+  const installWingetEngine = useCallback(async () => {
+    setIsInstallingEngine(true);
+    setWingetInstallProgress({
+      step: 'downloading_deps',
+      percent: 5,
+      message: 'Iniciando instalación oficial de WinGet...',
+    });
+    try {
+      const res = await electronApi.winget.installEngine();
+      if (res.success) {
+        await refreshWinget();
+        await refreshInstalledApps();
+        await refreshUpgrades();
+      }
+      return res;
+    } finally {
+      setIsInstallingEngine(false);
+    }
+  }, [refreshWinget, refreshInstalledApps, refreshUpgrades]);
+
   // Load Catalog
   useEffect(() => {
     let isMounted = true;
@@ -282,14 +466,26 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
       refreshInstalledApps();
     });
 
+    const unsubscribeInstallProgress = electronApi.winget.onInstallProgress((progress) => {
+      setWingetInstallProgress(progress);
+    });
+
     return () => {
       unsubscribeLog();
       unsubscribeCleared();
       unsubscribeState();
       unsubscribeTask();
       unsubscribeComplete();
+      unsubscribeInstallProgress();
     };
   }, [refreshInstalledApps]);
+
+  // Auto-fetch upgrades when switching to updates tab
+  useEffect(() => {
+    if (activeTab === 'updates' && upgrades.length === 0 && !isLoadingUpgrades && wingetInfo?.isAvailable) {
+      refreshUpgrades();
+    }
+  }, [activeTab, upgrades.length, isLoadingUpgrades, wingetInfo?.isAvailable, refreshUpgrades]);
 
   // Set of installed winget IDs for quick lookup
   const installedWingetIdSet = useMemo(() => {
@@ -581,6 +777,27 @@ export const ApplicationStoreProvider: React.FC<{ children: React.ReactNode }> =
     installedApps,
     installedWingetIdSet,
     refreshInstalledApps,
+    // Updates & Uninstaller
+    upgrades,
+    isLoadingUpgrades,
+    refreshUpgrades,
+    upgradePackage,
+    upgradeAll,
+    isUpgrading,
+    uninstallPackage,
+    isUninstalling,
+    // Online WinGet Search
+    onlineSearchResults,
+    isSearchingOnline,
+    searchOnline,
+    clearOnlineSearch,
+    addCustomSoftware,
+    // WinGet Engine Installer
+    isInstallingEngine,
+    wingetInstallProgress,
+    installWingetEngine,
+    isInstallWingetModalOpen,
+    setIsInstallWingetModalOpen,
     softwareList,
     filteredSoftware,
     isLoadingCatalog,

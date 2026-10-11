@@ -4,6 +4,7 @@ import path from 'path';
 import { exec } from 'child_process';
 import { WingetDetector } from '../services/WingetDetector';
 import { WingetService } from '../services/WingetService';
+import { WingetInstaller } from '../services/WingetInstaller';
 import { InstallationQueue } from '../services/InstallationQueue';
 import { LoggerService } from '../services/LoggerService';
 import { SettingsService } from '../services/SettingsService';
@@ -39,6 +40,40 @@ export function registerIpcHandlers(mainWindow: BrowserWindow) {
 
   ipcMain.handle('winget:getInstalled', async () => {
     return wingetService.getInstalledApps();
+  });
+
+  ipcMain.handle('winget:getUpgrades', async () => {
+    return wingetService.getUpgrades();
+  });
+
+  ipcMain.handle(
+    'winget:upgradePackage',
+    async (_, { wingetId, options }: { wingetId: string; options?: Partial<InstallationOptions> }) => {
+      return wingetService.upgradePackage(wingetId, options);
+    }
+  );
+
+  ipcMain.handle(
+    'winget:upgradeAll',
+    async (_, { options }: { options?: Partial<InstallationOptions> } = {}) => {
+      return wingetService.upgradeAll(options);
+    }
+  );
+
+  ipcMain.handle('winget:uninstallPackage', async (_, { wingetId }: { wingetId: string }) => {
+    return wingetService.uninstallPackage(wingetId);
+  });
+
+  ipcMain.handle('winget:searchOnline', async (_, { query }: { query: string }) => {
+    return wingetService.searchOnline(query);
+  });
+
+  ipcMain.handle('winget:installEngine', async () => {
+    return WingetInstaller.install((progress) => {
+      if (!mainWindow.isDestroyed()) {
+        mainWindow.webContents.send('winget:installProgress', progress);
+      }
+    });
   });
 
   // --- Software Catalog Channels ---

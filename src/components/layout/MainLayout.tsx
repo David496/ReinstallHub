@@ -8,8 +8,10 @@ import { InstallationResultModal } from '../installation/InstallationResultModal
 import { useAppStore } from '../../store/applicationStore';
 import { Dashboard } from '../../pages/Dashboard';
 import { SoftwareCatalogPage } from '../../pages/SoftwareCatalogPage';
+import { UpdatesPage } from '../../pages/UpdatesPage';
 import { SettingsPage } from '../../pages/SettingsPage';
 import { AboutPage } from '../../pages/AboutPage';
+import { InstallWingetModal } from '../installer/InstallWingetModal';
 
 export const MainLayout: React.FC = () => {
   const { activeTab } = useAppStore();
@@ -20,6 +22,8 @@ export const MainLayout: React.FC = () => {
         return <Dashboard />;
       case 'catalog':
         return <SoftwareCatalogPage />;
+      case 'updates':
+        return <UpdatesPage />;
       case 'settings':
         return <SettingsPage />;
       case 'about':
@@ -52,6 +56,7 @@ export const MainLayout: React.FC = () => {
       <InstallConfirmModal />
       <InstallationProgressModal />
       <InstallationResultModal />
+      <InstallWingetModal />
     </div>
   );
 };

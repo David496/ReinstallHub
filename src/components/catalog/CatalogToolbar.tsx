@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import { Search, X, Download, HardDrive, CheckSquare, Square } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Search, X, Download, HardDrive, CheckSquare, Square, Globe } from 'lucide-react';
 import { CategoryType, Software } from '../../types/software';
 import { Button } from '../common/Button';
 import { ProfileSelector } from './ProfileSelector';
 import { SaveProfileModal } from './SaveProfileModal';
+import { OnlineSearchModal } from './OnlineSearchModal';
 import { useCatalog } from '../../hooks/useCatalog';
 import { useInstallation } from '../../hooks/useInstallation';
 import { useWinget } from '../../hooks/useWinget';
@@ -33,6 +34,7 @@ export const CatalogToolbar: React.FC<CatalogToolbarProps> = ({
   const { isWingetAvailable } = useWinget();
   const { t } = useAppStore();
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [isOnlineSearchOpen, setIsOnlineSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,6 +77,11 @@ export const CatalogToolbar: React.FC<CatalogToolbarProps> = ({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery.trim().length >= 2) {
+                setIsOnlineSearchOpen(true);
+              }
+            }}
             placeholder={t.catalog.searchPlaceholder}
             className="w-full pl-8 pr-16 py-1.5 text-xs bg-win-bg border border-win-border rounded-md text-win-text placeholder-win-muted/60 focus:outline-none focus:border-win-primary focus:ring-1 focus:ring-win-primary transition-all"
           />
@@ -101,6 +108,17 @@ export const CatalogToolbar: React.FC<CatalogToolbarProps> = ({
 
         {/* Batch Selection Controls & Primary Install Button */}
         <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
+          {/* WinGet Online Community Repository Search */}
+          <Button
+            size="xs"
+            variant="outline"
+            onClick={() => setIsOnlineSearchOpen(true)}
+            icon={<Globe className="w-3.5 h-3.5 text-sky-400" />}
+            title={t.onlineSearch.title}
+          >
+            {t.onlineSearch.searchBtn}
+          </Button>
+
           {/* Profile Manager Dropdown */}
           <ProfileSelector />
 
@@ -190,6 +208,13 @@ export const CatalogToolbar: React.FC<CatalogToolbarProps> = ({
 
       {/* Save Profile Modal */}
       <SaveProfileModal />
+
+      {/* Online WinGet Search Modal */}
+      <OnlineSearchModal
+        isOpen={isOnlineSearchOpen}
+        onClose={() => setIsOnlineSearchOpen(false)}
+        initialQuery={searchQuery}
+      />
     </div>
   );
 };

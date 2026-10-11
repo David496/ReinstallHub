@@ -19,6 +19,23 @@ export const electronApi: ElectronAPI = {
     }),
     version: () => window.electronAPI?.winget.version() ?? Promise.resolve(null),
     getInstalled: () => window.electronAPI?.winget.getInstalled() ?? Promise.resolve([]),
+    getUpgrades: () => window.electronAPI?.winget.getUpgrades() ?? Promise.resolve([]),
+    upgradePackage: (wingetId, options) =>
+      window.electronAPI?.winget.upgradePackage(wingetId, options) ??
+      Promise.resolve({ success: false, exitCode: -1, message: 'Electron not available' }),
+    upgradeAll: (options) =>
+      window.electronAPI?.winget.upgradeAll(options) ??
+      Promise.resolve({ success: false, exitCode: -1, message: 'Electron not available' }),
+    uninstallPackage: (wingetId) =>
+      window.electronAPI?.winget.uninstallPackage(wingetId) ??
+      Promise.resolve({ success: false, exitCode: -1, message: 'Electron not available' }),
+    searchOnline: (query) =>
+      window.electronAPI?.winget.searchOnline(query) ?? Promise.resolve([]),
+    installEngine: () =>
+      window.electronAPI?.winget.installEngine() ??
+      Promise.resolve({ success: false, message: 'Electron not available' }),
+    onInstallProgress: (cb) =>
+      window.electronAPI?.winget.onInstallProgress(cb) ?? (() => {}),
   },
 
   software: {

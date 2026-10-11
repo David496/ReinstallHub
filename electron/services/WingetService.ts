@@ -1,8 +1,15 @@
 import { spawn, ChildProcess } from 'child_process';
 import { Software } from '../../src/types/software';
 import { InstallationOptions } from '../../src/types/installation';
-import { InstalledApplication } from '../../src/types/winget';
-import { buildWingetInstallArgs, killProcessTree } from '../utils/commandUtils';
+import { InstalledApplication, PackageUpgrade, WingetSearchResult } from '../../src/types/winget';
+import {
+  buildWingetInstallArgs,
+  buildWingetUpgradeArgs,
+  buildWingetUninstallArgs,
+  killProcessTree,
+  parseWingetUpgrades,
+  parseWingetSearchResults,
+} from '../utils/commandUtils';
 import { translateWingetExitCode } from '../utils/platformUtils';
 import { LoggerService } from './LoggerService';
 
@@ -246,6 +253,273 @@ export class WingetService {
           resolve([]);
         });
       } catch {
+        resolve([]);
+      }
+    });
+  }
+
+  /**
+   * Queries list of packages that have upgrades available using `winget upgrade`.
+   */
+  public async getUpgrades(): Promise<PackageUpgrade[]> {
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', ['upgrade', '--accept-source-agreements', '--disable-interactivity'], {
+          shell: true,
+          windowsHide: true,
+        });
+
+        let output = '';
+
+        child.stdout?.on('data', (data) => {
+          output += data.toString();
+        });
+
+        child.on('close', () => {
+          const upgrades = parseWingetUpgrades(output);
+          resolve(upgrades);
+        });
+
+        child.on('error', (err) => {
+          this.logger.error(`Error querying upgrades: ${err.message}`);
+          resolve([]);
+        });
+      } catch (err: any) {
+        this.logger.error(`Exception querying upgrades: ${err.message}`);
+        resolve([]);
+      }
+    });
+  }
+
+  /**
+   * Upgrades a single package by WinGet package ID.
+   */
+  public async upgradePackage(
+    wingetId: string,
+    options?: Partial<InstallationOptions>
+  ): Promise<{ success: boolean; exitCode: number; message: string }> {
+    const args = buildWingetUpgradeArgs(wingetId, options);
+    this.logger.command(`Executing: winget ${args.join(' ')}`);
+    this.logger.info(`Starting upgrade of ${wingetId}...`);
+
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', args, {
+          shell: false,
+          windowsHide: false,
+        });
+
+        child.stdout?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.info(`[Upgrade ${wingetId}] ${line.trim()}`);
+          }
+        });
+
+        child.stderr?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.warning(`[Upgrade ${wingetId}] ${line.trim()}`);
+          }
+        });
+
+        child.on('close', (code) => {
+          const translation = translateWingetExitCode(code);
+          if (translation.isSuccess) {
+            this.logger.success(`Package ${wingetId} upgraded successfully!`);
+          } else {
+            this.logger.error(`Failed to upgrade ${wingetId}. (Exit code: ${code})`);
+          }
+          resolve({
+            success: translation.isSuccess,
+            exitCode: code ?? 0,
+            message: translation.message,
+          });
+        });
+
+        child.on('error', (err) => {
+          this.logger.error(`Process error upgrading ${wingetId}: ${err.message}`);
+          resolve({
+            success: false,
+            exitCode: -1,
+            message: err.message,
+          });
+        });
+      } catch (err: any) {
+        this.logger.error(`Exception upgrading ${wingetId}: ${err.message}`);
+        resolve({
+          success: false,
+          exitCode: -1,
+          message: err.message,
+        });
+      }
+    });
+  }
+
+  /**
+   * Upgrades all available packages on the system (`winget upgrade --all`).
+   */
+  public async upgradeAll(
+    options?: Partial<InstallationOptions>
+  ): Promise<{ success: boolean; exitCode: number; message: string }> {
+    const args = buildWingetUpgradeArgs(undefined, options);
+    this.logger.command(`Executing: winget ${args.join(' ')}`);
+    this.logger.info(`Starting upgrade for all eligible packages...`);
+
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', args, {
+          shell: false,
+          windowsHide: false,
+        });
+
+        child.stdout?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.info(`[Upgrade All] ${line.trim()}`);
+          }
+        });
+
+        child.stderr?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.warning(`[Upgrade All] ${line.trim()}`);
+          }
+        });
+
+        child.on('close', (code) => {
+          const isSuccess = code === 0 || code === 3010;
+          if (isSuccess) {
+            this.logger.success(`All eligible packages upgraded successfully!`);
+          } else {
+            this.logger.warning(`Upgrade all process completed with code ${code}.`);
+          }
+          resolve({
+            success: isSuccess,
+            exitCode: code ?? 0,
+            message: isSuccess ? 'All packages upgraded successfully.' : `Completed with exit code ${code}`,
+          });
+        });
+
+        child.on('error', (err) => {
+          this.logger.error(`Error in upgrade all: ${err.message}`);
+          resolve({
+            success: false,
+            exitCode: -1,
+            message: err.message,
+          });
+        });
+      } catch (err: any) {
+        this.logger.error(`Exception in upgrade all: ${err.message}`);
+        resolve({
+          success: false,
+          exitCode: -1,
+          message: err.message,
+        });
+      }
+    });
+  }
+
+  /**
+   * Uninstalls a package by WinGet ID.
+   */
+  public async uninstallPackage(
+    wingetId: string
+  ): Promise<{ success: boolean; exitCode: number; message: string }> {
+    const args = buildWingetUninstallArgs(wingetId);
+    this.logger.command(`Executing: winget ${args.join(' ')}`);
+    this.logger.info(`Uninstalling package ${wingetId}...`);
+
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', args, {
+          shell: false,
+          windowsHide: false,
+        });
+
+        child.stdout?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.info(`[Uninstall ${wingetId}] ${line.trim()}`);
+          }
+        });
+
+        child.stderr?.on('data', (data) => {
+          const lines = data.toString().split(/\r?\n/).filter((l: string) => l.trim().length > 0);
+          for (const line of lines) {
+            this.logger.warning(`[Uninstall ${wingetId}] ${line.trim()}`);
+          }
+        });
+
+        child.on('close', (code) => {
+          const isSuccess = code === 0 || code === 3010;
+          if (isSuccess) {
+            this.logger.success(`Package ${wingetId} uninstalled successfully.`);
+          } else {
+            this.logger.error(`Failed to uninstall ${wingetId}. (Exit code: ${code})`);
+          }
+          resolve({
+            success: isSuccess,
+            exitCode: code ?? 0,
+            message: isSuccess ? 'Uninstalled successfully.' : `Uninstallation failed with exit code ${code}.`,
+          });
+        });
+
+        child.on('error', (err) => {
+          this.logger.error(`Process error uninstalling ${wingetId}: ${err.message}`);
+          resolve({
+            success: false,
+            exitCode: -1,
+            message: err.message,
+          });
+        });
+      } catch (err: any) {
+        this.logger.error(`Exception uninstalling ${wingetId}: ${err.message}`);
+        resolve({
+          success: false,
+          exitCode: -1,
+          message: err.message,
+        });
+      }
+    });
+  }
+
+  /**
+   * Searches live in the online WinGet community repository (`winget search <query>`).
+   */
+  public async searchOnline(query: string): Promise<WingetSearchResult[]> {
+    const cleanQuery = query.trim().replace(/["`$;|&<>]/g, '');
+    if (!cleanQuery || cleanQuery.length < 2) {
+      return [];
+    }
+
+    this.logger.info(`Searching online in WinGet repository for: "${cleanQuery}"...`);
+
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', ['search', cleanQuery, '--accept-source-agreements', '--disable-interactivity'], {
+          shell: true,
+          windowsHide: true,
+        });
+
+        let output = '';
+
+        child.stdout?.on('data', (data) => {
+          output += data.toString();
+        });
+
+        child.on('close', () => {
+          const results = parseWingetSearchResults(output);
+          this.logger.info(`Found ${results.length} results online for "${cleanQuery}".`);
+          resolve(results);
+        });
+
+        child.on('error', (err) => {
+          this.logger.error(`Error searching online for ${cleanQuery}: ${err.message}`);
+          resolve([]);
+        });
+      } catch (err: any) {
+        this.logger.error(`Exception searching online for ${cleanQuery}: ${err.message}`);
         resolve([]);
       }
     });

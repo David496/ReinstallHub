@@ -1,7 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { Software } from '../src/types/software';
 import { InstallationOptions, InstallationSummaryData, InstallationTask, QueueState } from '../src/types/installation';
-import { WingetInfo, InstalledApplication } from '../src/types/winget';
+import {
+  WingetInfo,
+  InstalledApplication,
+  PackageUpgrade,
+  WingetSearchResult,
+  WingetInstallProgress,
+} from '../src/types/winget';
 import { LogEntry } from '../src/types/log';
 import { AppSettings } from '../src/types/settings';
 
@@ -10,6 +16,31 @@ const electronAPI = {
     check: (): Promise<WingetInfo> => ipcRenderer.invoke('winget:check'),
     version: (): Promise<string | null> => ipcRenderer.invoke('winget:version'),
     getInstalled: (): Promise<InstalledApplication[]> => ipcRenderer.invoke('winget:getInstalled'),
+    getUpgrades: (): Promise<PackageUpgrade[]> => ipcRenderer.invoke('winget:getUpgrades'),
+    upgradePackage: (
+      wingetId: string,
+      options?: Partial<InstallationOptions>
+    ): Promise<{ success: boolean; exitCode: number; message: string }> =>
+      ipcRenderer.invoke('winget:upgradePackage', { wingetId, options }),
+    upgradeAll: (
+      options?: Partial<InstallationOptions>
+    ): Promise<{ success: boolean; exitCode: number; message: string }> =>
+      ipcRenderer.invoke('winget:upgradeAll', { options }),
+    uninstallPackage: (
+      wingetId: string
+    ): Promise<{ success: boolean; exitCode: number; message: string }> =>
+      ipcRenderer.invoke('winget:uninstallPackage', { wingetId }),
+    searchOnline: (query: string): Promise<WingetSearchResult[]> =>
+      ipcRenderer.invoke('winget:searchOnline', { query }),
+    installEngine: (): Promise<{ success: boolean; message: string; version?: string }> =>
+      ipcRenderer.invoke('winget:installEngine'),
+    onInstallProgress: (callback: (progress: WingetInstallProgress) => void) => {
+      const listener = (_: any, progress: WingetInstallProgress) => callback(progress);
+      ipcRenderer.on('winget:installProgress', listener);
+      return () => {
+        ipcRenderer.removeListener('winget:installProgress', listener);
+      };
+    },
   },
 
   software: {
