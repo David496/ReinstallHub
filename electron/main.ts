@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog } from 'electron';
 import path from 'path';
+import fs from 'fs';
 import { registerIpcHandlers } from './ipc/ipcHandlers';
 import { InstallationQueue } from './services/InstallationQueue';
 import { WingetService } from './services/WingetService';
@@ -57,15 +58,53 @@ function createWindow(): BrowserWindow {
     }
   });
 
-  if (isDev) {
-    win.loadURL('http://localhost:5173');
-    // Open DevTools if desired in dev
-    // win.webContents.openDevTools({ mode: 'detach' });
-  } else {
-    win.loadFile(path.join(__dirname, '../renderer/index.html'));
-  }
+  loadWindowContent(win);
 
   return win;
+}
+
+async function loadWindowContent(win: BrowserWindow) {
+  const localRendererPath = path.join(__dirname, '../renderer/index.html');
+  const hasLocalBuild = fs.existsSync(localRendererPath);
+
+  if (!isDev) {
+    if (hasLocalBuild) {
+      await win.loadFile(localRendererPath);
+    } else {
+      LoggerService.getInstance().error(`Production renderer bundle not found at: ${localRendererPath}`);
+    }
+    return;
+  }
+
+  // In development: try loading Vite dev server on 127.0.0.1 or localhost with retries
+  const devUrl = 'http://127.0.0.1:5173';
+  let loaded = false;
+
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await win.loadURL(devUrl);
+      loaded = true;
+      break;
+    } catch {
+      if (attempt < 3) {
+        await new Promise((r) => setTimeout(r, 750));
+      }
+    }
+  }
+
+  if (!loaded) {
+    // If Vite dev server is not active but built files exist, fallback cleanly
+    if (hasLocalBuild) {
+      LoggerService.getInstance().info(
+        'Vite dev server not running on port 5173. Falling back to local built renderer.'
+      );
+      await win.loadFile(localRendererPath);
+    } else {
+      LoggerService.getInstance().error(
+        'Neither Vite dev server nor local renderer bundle (dist/renderer/index.html) were found.'
+      );
+    }
+  }
 }
 
 // Single instance lock

@@ -6,14 +6,14 @@
   "author": "ReInstall Hub Team",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently -k -r -s first \"npm run dev:vite\" \"wait-on tcp:5173 && npm run dev:electron\"",
+    "dev": "concurrently -k -r -s first \"npm run dev:vite\" \"wait-on tcp:127.0.0.1:5173 && npm run dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "node scripts/build-electron.js --watch",
     "build": "npm run build:renderer && npm run build:electron",
     "build:renderer": "vite build",
     "build:electron": "node scripts/build-electron.js",
     "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit",
-    "start": "electron dist/main/main.js",
+    "start": "cross-env NODE_ENV=production electron dist/main/main.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "package": "npm run build && electron-builder --win"
